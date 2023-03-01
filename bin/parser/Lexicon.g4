@@ -7,21 +7,13 @@ LITENT
 LITREAL
 	: [0-9]+ '.' [0-9]+
 	;
-
-	
-
+LITCHAR
+	: '\'' (. | '\\n') '\''
+	;
 IDENT
 	: [a-zA-Z][a-zA-Z0-9_]*
 	;
-OPERADOR
-	:'+'|'-'|'*'|'/'|'%'
-	;
-COMPARADOR
-	: '>'|'<'|'='|'<='|'>='|'!='
-	;
-LOGICO
-	:'&&'|'||'|'!'
-	;
+
 LINE_COMMENT
 	: '//' .*? ('\n' | EOF) -> skip
 	;

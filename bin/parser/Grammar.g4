@@ -45,10 +45,15 @@ expr
 	: LITENT
 	| LITREAL
 	| IDENT
-	| expr OPERADOR expr
-	| expr COMPARADOR expr
-	| expr LOGICO expr
-	| expr ('[' LITENT']')+
+	| expr '[' expr ']'
+	| expr '.' IDENT 
 	| '(' expr ')'
-	| '<' tipo '>' '(' expr ')'
+	| 'to' '<' tipo '>' '(' expr ')'
+	| expr ('*' | '/') expr
+	| expr ('+' | '-') expr 
+	| expr ('>' | '<' | '>=' | '<=') expr
+	| expr ('=' | '!=') expr 
+	| expr '&&' expr
+	| expr '||' expr
+	| '!' expr
 	;
