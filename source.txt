@@ -1,0 +1,39 @@
+//Hola 
+var a:int;
+var b:char;
+var v:[10][76] int;
+var h:[3] float;
+dobleSuma(a:int, b:int): int {
+	var local:int;
+
+	local = (a + b) * 2;
+	return local * 2;
+    
+}
+var z: float;
+
+
+main() {
+  var local: int;
+  var v:[10] int; 
+
+  local = 0;
+  while (local < 10) {
+    
+    local = local + 1;
+  }
+
+  if (a >= 2 && local < 5) { 
+    return;
+  } else {
+    local = 0;
+  }
+  if (z != 2) {
+    local = 0;
+  }
+}
+
+/*ASDF
+sadfff
+ASDF
+*/
