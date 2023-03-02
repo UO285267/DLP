@@ -5,12 +5,44 @@ import Lexicon
 	;
 
 start
-	: (definicion|funcion)* EOF
+	: (definicion|funcion|estructura)* EOF
+	;
+
+estructura
+	: 'struct' IDENT '{' (parametro ';')*'}' ';'
 	;
 
 definicion
 	:	'var ' IDENT ':' tipo';'
-	|	'var ' IDENT ':' ('[' LITENT ']')+ tipo';'
+	;
+
+sentencia
+	: ('print'|'printsp'|'println') expr ';'
+	| 'read' expr ';'
+	| expr '=' expr ';'
+	| 'if' '(' expr ')' '{' sentencia* '}' 'else' '{' sentencia* '}'
+	| 'if' '(' expr ')' '{' sentencia* '}'
+	| 'while' '(' expr ')' '{' sentencia* '}'
+	| 'return' expr ';'
+	| 'return' ';'
+	;	
+	
+expr
+	: LITENT
+	| LITREAL
+	| IDENT
+	| IDENT'('expr ( ','expr )* ')'
+	| expr '[' expr ']'
+	| expr '.' IDENT
+	| '(' expr ')'
+	|  '<' tipo '>' '(' expr ')'
+	| expr ('*' | '/') expr
+	| expr ('+' | '-') expr 
+	| expr ('>' | '<' | '>=' | '<=') expr
+	| expr ('==' | '!=') expr 
+	| expr '&&' expr
+	| expr '||' expr
+	| '!' expr
 	;
 
 funcion
@@ -28,32 +60,11 @@ tipo
 	: 'int'
 	| 'float'
 	| 'char'
+	| '['expr']' tipo
+	|	IDENT
 	;
 
-sentencia
-	: 'print' expr ';'
-	| 'read' IDENT ';'
-	| IDENT '=' expr ';'
-	| 'if' '(' expr ')' '{' sentencia+ '}'
-	| 'if' '(' expr ')' '{' sentencia+ '}' 'else' '{' sentencia+ '}'
-	| 'while' '(' expr ')' '{' sentencia+ '}'
-	| 'return' expr ';'
-	| 'return' ';'
-	;
 
-expr
-	: LITENT
-	| LITREAL
-	| IDENT
-	| expr '[' expr ']'
-	| expr '.' IDENT 
-	| '(' expr ')'
-	| 'to' '<' tipo '>' '(' expr ')'
-	| expr ('*' | '/') expr
-	| expr ('+' | '-') expr 
-	| expr ('>' | '<' | '>=' | '<=') expr
-	| expr ('=' | '!=') expr 
-	| expr '&&' expr
-	| expr '||' expr
-	| '!' expr
-	;
+
+
+
