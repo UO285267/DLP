@@ -25,11 +25,13 @@ sentencia
 	| 'while' '(' expr ')' '{' sentencia* '}'
 	| 'return' expr ';'
 	| 'return' ';'
+	| IDENT '(' expr ')' ';'
 	;	
 	
 expr
 	: LITENT
 	| LITREAL
+	| LITCHAR
 	| IDENT
 	| IDENT'('expr ( ','expr )* ')'
 	| expr '[' expr ']'

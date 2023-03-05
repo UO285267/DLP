@@ -1,4 +1,4 @@
-// Generated from c:\Users\u005Cuo285267\Desktop\Traductor\DLP\src\parser\Grammar.g4 by ANTLR 4.9.2
+// Generated from d:\Esqueleto Traductor\src\parser\Grammar.g4 by ANTLR 4.9.2
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.Token;
