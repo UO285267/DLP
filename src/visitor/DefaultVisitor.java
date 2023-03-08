@@ -14,10 +14,11 @@ DefaultVisitor. Implementación base del visitor para ser derivada por nuevos vi
 */
 public class DefaultVisitor implements Visitor {
 
-	//	class Program { List<Def> def;  List<Func> func; }
+	//	class Program { List<Def> def;  List<Func> func;  List<StructType> est; }
 	public Object visit(Program node, Object param) {
 		visitChildren(node.getDef(), param);
 		visitChildren(node.getFunc(), param);
+		visitChildren(node.getEst(), param);
 		return null;
 	}
 
@@ -154,6 +155,13 @@ public class DefaultVisitor implements Visitor {
 			node.getLeft().accept(this, param);
 		if (node.getRight() != null)
 			node.getRight().accept(this, param);
+		return null;
+	}
+
+	//	class ExprLogicaNe { Expr expr; }
+	public Object visit(ExprLogicaNe node, Object param) {
+		if (node.getExpr() != null)
+			node.getExpr().accept(this, param);
 		return null;
 	}
 

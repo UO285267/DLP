@@ -27,6 +27,7 @@ public interface Visitor {
 	public Object visit(FuncCall node, Object param);
 	public Object visit(ExprAritmetica node, Object param);
 	public Object visit(ExprLogica node, Object param);
+	public Object visit(ExprLogicaNe node, Object param);
 	public Object visit(Acces node, Object param);
 	public Object visit(ArrayAcces node, Object param);
 	public Object visit(Cast node, Object param);

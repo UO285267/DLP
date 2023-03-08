@@ -94,7 +94,7 @@ public class ASTPrinter extends DefaultVisitor {
     }
 
     // ----------------------------------------------
-	//	class Program { List<Def> def;  List<Func> func; }
+	//	class Program { List<Def> def;  List<Func> func;  List<StructType> est; }
 	public Object visit(Program node, Object param) {
 		int indent = ((Integer)param).intValue();
 
@@ -102,6 +102,7 @@ public class ASTPrinter extends DefaultVisitor {
 
 		visit(indent + 1, "def", "List<Def>",node.getDef());
 		visit(indent + 1, "func", "List<Func>",node.getFunc());
+		visit(indent + 1, "est", "List<StructType>",node.getEst());
 		return null;
 	}
 
@@ -304,6 +305,16 @@ public class ASTPrinter extends DefaultVisitor {
 		visit(indent + 1, "left", "Expr",node.getLeft());
 		print(indent + 1, "op", "String", node.getOp());
 		visit(indent + 1, "right", "Expr",node.getRight());
+		return null;
+	}
+
+	//	class ExprLogicaNe { Expr expr; }
+	public Object visit(ExprLogicaNe node, Object param) {
+		int indent = ((Integer)param).intValue();
+
+		printName(indent, "ExprLogicaNe", node, false);
+
+		visit(indent + 1, "expr", "Expr",node.getExpr());
 		return null;
 	}
 

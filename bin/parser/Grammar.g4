@@ -11,7 +11,7 @@ import Lexicon
 start returns[Program ast]
 
 	: {List<Def> def = new ArrayList<Def>(); List<Func> func = new ArrayList<Func>();}
-	(definicion{def.add($definicion.ast);}|funcion{func.add($funcion.ast);}|estructura)* EOF { $ast = new Program(def,func); }
+	(definicion{def.add($definicion.ast);}|funcion{func.add($funcion.ast);}|es+=estructura)* EOF { $ast = new Program(def,func,$es); }
 	;
 
 estructura returns[StructType ast]
@@ -33,13 +33,13 @@ sentencia returns[Sentence ast]
 	| 'return' ';'	{$ast = new ReturnNode(null);}
 	| IDENT '(' expr ')' ';' {$ast = new FuncCall($IDENT,$expr.ast);}
 	;	
-	
+
 expr returns[Expr ast]
 	: LITENT {$ast = new LitEnt($LITENT);}
 	| LITREAL {$ast = new LitReal($LITREAL);}
 	| LITCHAR {$ast = new LitChar($LITCHAR);}
 	| IDENT {$ast = new Variable($IDENT);}
-	| IDENT'('expr ( ','expr )* ')'
+	| IDENT'('ex+=expr ( ','ex+=expr )* ')' {$ast =new MethodCallExpr($IDENT,$ex);}
 	| left=expr '[' right=expr ']'{$ast = new ArrayAcces($left.ast, $right.ast);}
 	| left=expr op='.' IDENT {$ast = new Acces($left.ast, $op.text, $IDENT);}
 	| '(' expr ')' {$ast = $expr.ast ;}
@@ -47,10 +47,10 @@ expr returns[Expr ast]
 	| left=expr op=('*' | '/') right=expr {$ast = new ExprAritmetica($left.ast, $op.text, $right.ast);}
 	| left=expr op=('+' | '-') right=expr {$ast = new ExprAritmetica($left.ast, $op.text, $right.ast);}
 	| left=expr op=('>' | '<' | '>=' | '<=') right=expr {$ast = new ExprLogica($left.ast, $op.text, $right.ast);}
-	| expr ('==' | '!=') expr 
-	| expr '&&' expr
-	| expr '||' expr
-	| '!' expr
+	| left=expr op=('==' | '!=') right=expr {$ast = new ExprLogica($left.ast, $op.text, $right.ast);}
+	| left=expr op='&&' right=expr {$ast = new ExprLogica($left.ast, $op.text, $right.ast);}
+	| left=expr op='||' right=expr{$ast = new ExprLogica($left.ast, $op.text, $right.ast);}
+	| '!' expr {$ast = new ExprLogicaNe( $expr.ast);}
 	;
 
 funcion returns [Func ast]

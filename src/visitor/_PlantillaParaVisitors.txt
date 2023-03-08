@@ -38,7 +38,7 @@ public class <nombre clase> extends DefaultVisitor {
 	//		es la llamada a 'super.visit' la que debería ser borrada.
 	// ---------------------------------------------------------
 
-	//	class Program { List<Def> def;  List<Func> func; }
+	//	class Program { List<Def> def;  List<Func> func;  List<StructType> est; }
 	public Object visit(Program node, Object param) {
 
 		// super.visit(node, param);
@@ -49,6 +49,10 @@ public class <nombre clase> extends DefaultVisitor {
 
 		if (node.getFunc() != null)
 			for (Func child : node.getFunc())
+				child.accept(this, param);
+
+		if (node.getEst() != null)
+			for (StructType child : node.getEst())
 				child.accept(this, param);
 
 		return null;
@@ -266,6 +270,17 @@ public class <nombre clase> extends DefaultVisitor {
 
 		if (node.getRight() != null)
 			node.getRight().accept(this, param);
+
+		return null;
+	}
+
+	//	class ExprLogicaNe { Expr expr; }
+	public Object visit(ExprLogicaNe node, Object param) {
+
+		// super.visit(node, param);
+
+		if (node.getExpr() != null)
+			node.getExpr().accept(this, param);
 
 		return null;
 	}
