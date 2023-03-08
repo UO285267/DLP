@@ -159,11 +159,11 @@ public class ASTPrinter extends DefaultVisitor {
 		return null;
 	}
 
-	//	class Chartype {  }
-	public Object visit(Chartype node, Object param) {
+	//	class CharType {  }
+	public Object visit(CharType node, Object param) {
 		int indent = ((Integer)param).intValue();
 
-		printName(indent, "Chartype", node, true);
+		printName(indent, "CharType", node, true);
 
 		return null;
 	}
@@ -272,14 +272,14 @@ public class ASTPrinter extends DefaultVisitor {
 		return null;
 	}
 
-	//	class FuncCall { String name;  List<Expr> args; }
+	//	class FuncCall { String name;  Expr args; }
 	public Object visit(FuncCall node, Object param) {
 		int indent = ((Integer)param).intValue();
 
 		printName(indent, "FuncCall", node, false);
 
 		print(indent + 1, "name", "String", node.getName());
-		visit(indent + 1, "args", "List<Expr>",node.getArgs());
+		visit(indent + 1, "args", "Expr",node.getArgs());
 		return null;
 	}
 

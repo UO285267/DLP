@@ -109,8 +109,8 @@ public class <nombre clase> extends DefaultVisitor {
 		return null;
 	}
 
-	//	class Chartype {  }
-	public Object visit(Chartype node, Object param) {
+	//	class CharType {  }
+	public Object visit(CharType node, Object param) {
 		return null;
 	}
 
@@ -231,14 +231,13 @@ public class <nombre clase> extends DefaultVisitor {
 		return null;
 	}
 
-	//	class FuncCall { String name;  List<Expr> args; }
+	//	class FuncCall { String name;  Expr args; }
 	public Object visit(FuncCall node, Object param) {
 
 		// super.visit(node, param);
 
 		if (node.getArgs() != null)
-			for (Expr child : node.getArgs())
-				child.accept(this, param);
+			node.getArgs().accept(this, param);
 
 		return null;
 	}

@@ -6,9 +6,9 @@ package ast;
 
 import visitor.*;
 
-//	chartype:type -> 
+//	charType:type -> 
 
-public class Chartype extends AbstractType {
+public class CharType extends AbstractType {
 
 	@Override
 	public Object accept(Visitor v, Object param) { 
@@ -17,6 +17,6 @@ public class Chartype extends AbstractType {
 
 
 	public String toString() {
-       return "{Chartype}";
+       return "{CharType}";
    }
 }

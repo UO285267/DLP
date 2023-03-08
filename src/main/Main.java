@@ -33,11 +33,11 @@ public class Main {
     public static void main(String[] args) throws Exception {
         ErrorManager errorManager = new ErrorManager();
 
-        AST ast = compile(args[0], errorManager); // Sustituir "INPUT_FILE" por args[0] en la versión final
+        AST ast = compile(INPUT_FILE, errorManager); // Sustituir "INPUT_FILE" por args[0] en la versión final
         if (errorManager.errorsCount() == 0)
             System.out.println("El programa se ha compilado correctamente.");
 
-        ASTPrinter.toHtml(args[0], ast, "AST"); // Utilidad generada por VGen (opcional)
+        ASTPrinter.toHtml(INPUT_FILE, ast, "AST"); // Utilidad generada por VGen (opcional)
     }
 
     /**
@@ -52,7 +52,7 @@ public class Main {
         AST ast = null;
 
         // IMPORTANTE: Cuando se genere el AST, INTERCAMBIAR las dos líneas siguientes:
-        // parser.start();
+        //parser.start();
         ast = parser.start().ast;
 
         if (parser.getNumberOfSyntaxErrors() > 0 || ast == null) { // Hay errores o el AST no se ha implementado aún

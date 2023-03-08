@@ -55,8 +55,8 @@ public class DefaultVisitor implements Visitor {
 		return null;
 	}
 
-	//	class Chartype {  }
-	public Object visit(Chartype node, Object param) {
+	//	class CharType {  }
+	public Object visit(CharType node, Object param) {
 		return null;
 	}
 
@@ -132,9 +132,10 @@ public class DefaultVisitor implements Visitor {
 		return null;
 	}
 
-	//	class FuncCall { String name;  List<Expr> args; }
+	//	class FuncCall { String name;  Expr args; }
 	public Object visit(FuncCall node, Object param) {
-		visitChildren(node.getArgs(), param);
+		if (node.getArgs() != null)
+			node.getArgs().accept(this, param);
 		return null;
 	}
 
