@@ -8,12 +8,12 @@ import org.antlr.v4.runtime.*;
 
 import visitor.*;
 
-//	parameter:def -> neme:String  type:type
+//	defVar:def -> name:String  type:type
 
-public class Parameter extends AbstractDef {
+public class DefVar extends AbstractDef {
 
-	public Parameter(String neme, Type type) {
-		this.name = neme;
+	public DefVar(String name, Type type) {
+		this.name = name;
 		this.type = type;
 
        // Lo siguiente se puede borrar si no se quiere la posicion en el fichero.
@@ -21,20 +21,20 @@ public class Parameter extends AbstractDef {
        setPositions(type);
 	}
 
-	public Parameter(Object neme, Object type) {
-		this.name = (neme instanceof Token) ? ((Token)neme).getText() : (String) neme;
+	public DefVar(Object name, Object type) {
+		this.name = (name instanceof Token) ? ((Token)name).getText() : (String) name;
 		this.type = (Type) getAST(type);
 
        // Lo siguiente se puede borrar si no se quiere la posicion en el fichero.
        // Obtiene la linea/columna a partir de las de los hijos.
-       setPositions(neme, type);
+       setPositions(name, type);
 	}
 
 	public String getName() {
 		return name;
 	}
-	public void setName(String neme) {
-		this.name = neme;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public Type getType() {
@@ -53,8 +53,6 @@ public class Parameter extends AbstractDef {
 	private Type type;
 
 	public String toString() {
-       return "{neme:" + getName() + ", type:" + getType() + "}";
+       return "{name:" + getName() + ", type:" + getType() + "}";
    }
-
-	
 }

@@ -199,8 +199,10 @@ public class GrammarParser extends Parser {
 	}
 
 	public static class EstructuraContext extends ParserRuleContext {
-		public StructType ast;
+		public DefStruct ast;
 		public Token IDENT;
+		public ParametroContext parametro;
+		public List<ParametroContext> pa = new ArrayList<ParametroContext>();
 		public TerminalNode IDENT() { return getToken(GrammarParser.IDENT, 0); }
 		public List<ParametroContext> parametro() {
 			return getRuleContexts(ParametroContext.class);
@@ -234,7 +236,8 @@ public class GrammarParser extends Parser {
 				{
 				{
 				setState(37);
-				parametro();
+				((EstructuraContext)_localctx).parametro = parametro();
+				((EstructuraContext)_localctx).pa.add(((EstructuraContext)_localctx).parametro);
 				setState(38);
 				match(T__2);
 				}
@@ -247,7 +250,7 @@ public class GrammarParser extends Parser {
 			match(T__3);
 			setState(46);
 			match(T__2);
-			 ((EstructuraContext)_localctx).ast =  new StructType(((EstructuraContext)_localctx).IDENT);
+			 ((EstructuraContext)_localctx).ast =  new DefStruct(((EstructuraContext)_localctx).IDENT,((EstructuraContext)_localctx).pa);
 			}
 		}
 		catch (RecognitionException re) {
@@ -262,7 +265,7 @@ public class GrammarParser extends Parser {
 	}
 
 	public static class DefinicionContext extends ParserRuleContext {
-		public Def ast;
+		public DefVar ast;
 		public Token IDENT;
 		public TipoContext tipo;
 		public TerminalNode IDENT() { return getToken(GrammarParser.IDENT, 0); }
@@ -291,7 +294,7 @@ public class GrammarParser extends Parser {
 			((DefinicionContext)_localctx).tipo = tipo();
 			setState(53);
 			match(T__2);
-			((DefinicionContext)_localctx).ast =  new Def(((DefinicionContext)_localctx).IDENT, ((DefinicionContext)_localctx).tipo.ast);
+			((DefinicionContext)_localctx).ast =  new DefVar(((DefinicionContext)_localctx).IDENT, ((DefinicionContext)_localctx).tipo.ast);
 			}
 		}
 		catch (RecognitionException re) {

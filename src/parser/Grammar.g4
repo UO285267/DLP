@@ -14,12 +14,12 @@ start returns[Program ast]
 	(definicion{prog.add($definicion.ast);}|funcion{prog.add($funcion.ast);}|estructura{prog.add($estructura.ast);})* EOF { $ast = new Program(prog); }
 	;
 
-estructura returns[StructType ast]
-	: 'struct' IDENT '{' (parametro ';')*'}' ';' { $ast = new StructType($IDENT);}
+estructura returns[DefStruct ast]
+	: 'struct' IDENT '{' (pa+=parametro ';')*'}' ';' { $ast = new DefStruct($IDENT,$pa);}
 	;
 
-definicion returns [Def ast]
-	:	'var ' IDENT ':' tipo';' {$ast = new Def($IDENT, $tipo.ast);}
+definicion returns [DefVar ast]
+	:	'var ' IDENT ':' tipo';' {$ast = new DefVar($IDENT, $tipo.ast);}
 	;
 
 sentencia returns[Sentence ast]

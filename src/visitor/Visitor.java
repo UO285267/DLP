@@ -9,8 +9,9 @@ import ast.*;
 public interface Visitor {
 	public Object visit(Program node, Object param);
 	public Object visit(Func node, Object param);
-	public Object visit(Def node, Object param);
+	public Object visit(DefVar node, Object param);
 	public Object visit(Parameter node, Object param);
+	public Object visit(DefStruct node, Object param);
 	public Object visit(IntType node, Object param);
 	public Object visit(RealType node, Object param);
 	public Object visit(CharType node, Object param);

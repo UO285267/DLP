@@ -37,6 +37,15 @@ public class Variable extends AbstractExpr {
 	}
 
 	private String string;
+	private Def definicion;
+
+	public Def getDefinicion(){
+		return definicion;
+	}
+
+	public void setDefinicion(Def def){
+		definicion = def;
+	}
 
 	public String toString() {
        return "{string:" + getString() + "}";

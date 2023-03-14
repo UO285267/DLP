@@ -94,13 +94,13 @@ public class ASTPrinter extends DefaultVisitor {
     }
 
     // ----------------------------------------------
-	//	class Program { List<Def> def;  List<Func> func;  List<StructType> est; }
+	//	class Program { List<AST> ast; }
 	public Object visit(Program node, Object param) {
 		int indent = ((Integer)param).intValue();
 
 		printName(indent, "Program", node, false);
 
-		visit(indent + 1, "programa", "List<AST>",node.getDef());
+		visit(indent + 1, "ast", "List<AST>",node.getAst());
 		return null;
 	}
 
@@ -118,11 +118,11 @@ public class ASTPrinter extends DefaultVisitor {
 		return null;
 	}
 
-	//	class Def { String name;  Type type; }
-	public Object visit(Def node, Object param) {
+	//	class DefVar { String name;  Type type; }
+	public Object visit(DefVar node, Object param) {
 		int indent = ((Integer)param).intValue();
 
-		printName(indent, "Def", node, false);
+		printName(indent, "DefVar", node, false);
 
 		print(indent + 1, "name", "String", node.getName());
 		visit(indent + 1, "type", "Type",node.getType());
@@ -135,8 +135,19 @@ public class ASTPrinter extends DefaultVisitor {
 
 		printName(indent, "Parameter", node, false);
 
-		print(indent + 1, "neme", "String", node.getNeme());
+		print(indent + 1, "neme", "String", node.getName());
 		visit(indent + 1, "type", "Type",node.getType());
+		return null;
+	}
+
+	//	class DefStruct { String name;  List<Parameter> parameter; }
+	public Object visit(DefStruct node, Object param) {
+		int indent = ((Integer)param).intValue();
+
+		printName(indent, "DefStruct", node, false);
+
+		print(indent + 1, "name", "String", node.getName());
+		visit(indent + 1, "parameter", "List<Parameter>",node.getParameter());
 		return null;
 	}
 

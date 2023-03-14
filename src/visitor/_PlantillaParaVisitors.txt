@@ -38,21 +38,13 @@ public class <nombre clase> extends DefaultVisitor {
 	//		es la llamada a 'super.visit' la que debería ser borrada.
 	// ---------------------------------------------------------
 
-	//	class Program { List<Def> def;  List<Func> func;  List<StructType> est; }
+	//	class Program { List<AST> ast; }
 	public Object visit(Program node, Object param) {
 
 		// super.visit(node, param);
 
-		if (node.getDef() != null)
-			for (Def child : node.getDef())
-				child.accept(this, param);
-
-		if (node.getFunc() != null)
-			for (Func child : node.getFunc())
-				child.accept(this, param);
-
-		if (node.getEst() != null)
-			for (StructType child : node.getEst())
+		if (node.getAst() != null)
+			for (AST child : node.getAst())
 				child.accept(this, param);
 
 		return null;
@@ -81,8 +73,8 @@ public class <nombre clase> extends DefaultVisitor {
 		return null;
 	}
 
-	//	class Def { String name;  Type type; }
-	public Object visit(Def node, Object param) {
+	//	class DefVar { String name;  Type type; }
+	public Object visit(DefVar node, Object param) {
 
 		// super.visit(node, param);
 
@@ -99,6 +91,18 @@ public class <nombre clase> extends DefaultVisitor {
 
 		if (node.getType() != null)
 			node.getType().accept(this, param);
+
+		return null;
+	}
+
+	//	class DefStruct { String name;  List<Parameter> parameter; }
+	public Object visit(DefStruct node, Object param) {
+
+		// super.visit(node, param);
+
+		if (node.getParameter() != null)
+			for (Parameter child : node.getParameter())
+				child.accept(this, param);
 
 		return null;
 	}

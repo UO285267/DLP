@@ -9,9 +9,9 @@ import org.antlr.v4.runtime.*;
 
 import visitor.*;
 
-//	func -> name:String  parameter:parameter*  retorno:type  def:def*  sentence:sentence*
+//	func:def -> name:String  parameter:parameter*  retorno:type  def:def*  sentence:sentence*
 
-public class Func extends AbstractAST  {
+public class Func extends AbstractDef {
 
 	public Func(String name, List<Parameter> parameter, Type retorno, List<Def> def, List<Sentence> sentence) {
 		this.name = name;

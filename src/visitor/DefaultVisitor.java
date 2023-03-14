@@ -14,9 +14,9 @@ DefaultVisitor. Implementación base del visitor para ser derivada por nuevos vi
 */
 public class DefaultVisitor implements Visitor {
 
-	//	class Program { List<Def> def;  List<Func> func;  List<StructType> est; }
+	//	class Program { List<AST> ast; }
 	public Object visit(Program node, Object param) {
-		visitChildren(node.getDef(), param);
+		visitChildren(node.getAst(), param);
 		return null;
 	}
 
@@ -30,8 +30,8 @@ public class DefaultVisitor implements Visitor {
 		return null;
 	}
 
-	//	class Def { String name;  Type type; }
-	public Object visit(Def node, Object param) {
+	//	class DefVar { String name;  Type type; }
+	public Object visit(DefVar node, Object param) {
 		if (node.getType() != null)
 			node.getType().accept(this, param);
 		return null;
@@ -41,6 +41,12 @@ public class DefaultVisitor implements Visitor {
 	public Object visit(Parameter node, Object param) {
 		if (node.getType() != null)
 			node.getType().accept(this, param);
+		return null;
+	}
+
+	//	class DefStruct { String name;  List<Parameter> parameter; }
+	public Object visit(DefStruct node, Object param) {
+		visitChildren(node.getParameter(), param);
 		return null;
 	}
 

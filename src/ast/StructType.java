@@ -36,6 +36,15 @@ public class StructType extends AbstractType {
 		return v.visit(this, param);
 	}
 
+	private DefStruct struct;
+	public DefStruct getStruct() {
+		return struct;
+	}
+
+	public void setStruct(DefStruct struct) {
+		this.struct = struct;
+	}
+
 	private String name;
 
 	public String toString() {
