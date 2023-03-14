@@ -10,8 +10,8 @@ import Lexicon
 
 start returns[Program ast]
 
-	: {List<Def> def = new ArrayList<Def>(); List<Func> func = new ArrayList<Func>();}
-	(definicion{def.add($definicion.ast);}|funcion{func.add($funcion.ast);}|es+=estructura)* EOF { $ast = new Program(def,func,$es); }
+	: {List<AST> prog = new ArrayList<AST>();}
+	(definicion{prog.add($definicion.ast);}|funcion{prog.add($funcion.ast);}|estructura{prog.add($estructura.ast);})* EOF { $ast = new Program(prog); }
 	;
 
 estructura returns[StructType ast]

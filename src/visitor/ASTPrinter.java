@@ -100,9 +100,7 @@ public class ASTPrinter extends DefaultVisitor {
 
 		printName(indent, "Program", node, false);
 
-		visit(indent + 1, "def", "List<Def>",node.getDef());
-		visit(indent + 1, "func", "List<Func>",node.getFunc());
-		visit(indent + 1, "est", "List<StructType>",node.getEst());
+		visit(indent + 1, "programa", "List<AST>",node.getDef());
 		return null;
 	}
 

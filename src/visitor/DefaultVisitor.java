@@ -17,8 +17,6 @@ public class DefaultVisitor implements Visitor {
 	//	class Program { List<Def> def;  List<Func> func;  List<StructType> est; }
 	public Object visit(Program node, Object param) {
 		visitChildren(node.getDef(), param);
-		visitChildren(node.getFunc(), param);
-		visitChildren(node.getEst(), param);
 		return null;
 	}
 

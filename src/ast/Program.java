@@ -11,57 +11,44 @@ import visitor.*;
 
 public class Program extends AbstractAST  {
 
-	public Program(List<Def> def, List<Func> func, List<StructType> est) {
+	public Program(List<AST> def) {
 		this.def = def;
-		this.func = func;
-		this.est = est;
+		
 
        // Lo siguiente se puede borrar si no se quiere la posicion en el fichero.
        // Obtiene la linea/columna a partir de las de los hijos.
-       setPositions(def, func, est);
+       setPositions(def);
 	}
 
-	public Program(Object def, Object func, Object est) {
-		this.def = this.<Def>getAstFromContexts(def);
-		this.func = this.<Func>getAstFromContexts(func);
-		this.est = this.<StructType>getAstFromContexts(est);
+	public Program(Object def) {
+		this.def = this.<AST>getAstFromContexts(def);
+		
 
        // Lo siguiente se puede borrar si no se quiere la posicion en el fichero.
        // Obtiene la linea/columna a partir de las de los hijos.
-       setPositions(def, func, est);
+       setPositions(def);
 	}
 
-	public List<Def> getDef() {
+	public List<AST> getDef() {
 		return def;
 	}
-	public void setDef(List<Def> def) {
+	public void setDef(List<AST> def) {
 		this.def = def;
 	}
 
-	public List<Func> getFunc() {
-		return func;
-	}
-	public void setFunc(List<Func> func) {
-		this.func = func;
-	}
+	
 
-	public List<StructType> getEst() {
-		return est;
-	}
-	public void setEst(List<StructType> est) {
-		this.est = est;
-	}
+	
 
 	@Override
 	public Object accept(Visitor v, Object param) { 
 		return v.visit(this, param);
 	}
 
-	private List<Def> def;
-	private List<Func> func;
-	private List<StructType> est;
+	private List<AST> def;
+	
 
 	public String toString() {
-       return "{def:" + getDef() + ", func:" + getFunc() + ", est:" + getEst() + "}";
+       return "{AST:" + getDef() + "}";
    }
 }
