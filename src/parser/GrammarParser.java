@@ -949,7 +949,7 @@ public class GrammarParser extends Parser {
 			case 1:
 				enterOuterAlt(_localctx, 1);
 				{
-				List<Parameter> para = new ArrayList<Parameter>();List<Sentence> sent = new ArrayList<Sentence>(); List<Def> def = new ArrayList<Def>();
+				List<Parameter> para = new ArrayList<Parameter>();List<Sentence> sent = new ArrayList<Sentence>(); List<DefVar> def = new ArrayList<DefVar>();
 				setState(227);
 				((FuncionContext)_localctx).IDENT = match(IDENT);
 				setState(228);
@@ -1020,7 +1020,7 @@ public class GrammarParser extends Parser {
 			case 2:
 				enterOuterAlt(_localctx, 2);
 				{
-				List<Parameter> para = new ArrayList<Parameter>();List<Sentence> sent = new ArrayList<Sentence>(); List<Def> def = new ArrayList<Def>();
+				List<Parameter> para = new ArrayList<Parameter>();List<Sentence> sent = new ArrayList<Sentence>(); List<DefVar> def = new ArrayList<DefVar>();
 				setState(263);
 				((FuncionContext)_localctx).IDENT = match(IDENT);
 				setState(264);
@@ -1087,7 +1087,7 @@ public class GrammarParser extends Parser {
 			case 3:
 				enterOuterAlt(_localctx, 3);
 				{
-				List<Sentence> sent = new ArrayList<Sentence>(); List<Def> def = new ArrayList<Def>();
+				List<Sentence> sent = new ArrayList<Sentence>(); List<DefVar> def = new ArrayList<DefVar>();
 				setState(297);
 				((FuncionContext)_localctx).IDENT = match(IDENT);
 				setState(298);
@@ -1138,7 +1138,7 @@ public class GrammarParser extends Parser {
 			case 4:
 				enterOuterAlt(_localctx, 4);
 				{
-				List<Sentence> sent = new ArrayList<Sentence>(); List<Def> def = new ArrayList<Def>();
+				List<Sentence> sent = new ArrayList<Sentence>(); List<DefVar> def = new ArrayList<DefVar>();
 				setState(322);
 				((FuncionContext)_localctx).IDENT = match(IDENT);
 				setState(323);

@@ -104,7 +104,7 @@ public class ASTPrinter extends DefaultVisitor {
 		return null;
 	}
 
-	//	class Func { String name;  List<Parameter> parameter;  Type retorno;  List<Def> def;  List<Sentence> sentence; }
+	//	class Func { String name;  List<Parameter> parameter;  Type retorno;  List<DefVar> defvar;  List<Sentence> sentence; }
 	public Object visit(Func node, Object param) {
 		int indent = ((Integer)param).intValue();
 
@@ -113,7 +113,7 @@ public class ASTPrinter extends DefaultVisitor {
 		print(indent + 1, "name", "String", node.getName());
 		visit(indent + 1, "parameter", "List<Parameter>",node.getParameter());
 		visit(indent + 1, "retorno", "Type",node.getRetorno());
-		visit(indent + 1, "def", "List<Def>",node.getDef());
+		visit(indent + 1, "defvar", "List<DefVar>",node.getDefvar());
 		visit(indent + 1, "sentence", "List<Sentence>",node.getSentence());
 		return null;
 	}

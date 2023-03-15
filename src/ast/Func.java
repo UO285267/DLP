@@ -13,28 +13,28 @@ import visitor.*;
 
 public class Func extends AbstractDef {
 
-	public Func(String name, List<Parameter> parameter, Type retorno, List<Def> def, List<Sentence> sentence) {
+	public Func(String name, List<Parameter> parameter, Type retorno, List<DefVar> defvar, List<Sentence> sentence) {
 		this.name = name;
 		this.parameter = parameter;
 		this.retorno = retorno;
-		this.def = def;
+		this.defvar = defvar;
 		this.sentence = sentence;
 
        // Lo siguiente se puede borrar si no se quiere la posicion en el fichero.
        // Obtiene la linea/columna a partir de las de los hijos.
-       setPositions(parameter, retorno, def, sentence);
+       setPositions(parameter, retorno, defvar, sentence);
 	}
 
-	public Func(Object name, Object parameter, Object retorno, Object def, Object sentence) {
+	public Func(Object name, Object parameter, Object retorno, Object defvar, Object sentence) {
 		this.name = (name instanceof Token) ? ((Token)name).getText() : (String) name;
 		this.parameter = this.<Parameter>getAstFromContexts(parameter);
 		this.retorno = (Type) getAST(retorno);
-		this.def = this.<Def>getAstFromContexts(def);
+		this.defvar = this.<DefVar>getAstFromContexts(defvar);
 		this.sentence = this.<Sentence>getAstFromContexts(sentence);
 
        // Lo siguiente se puede borrar si no se quiere la posicion en el fichero.
        // Obtiene la linea/columna a partir de las de los hijos.
-       setPositions(name, parameter, retorno, def, sentence);
+       setPositions(name, parameter, retorno, defvar, sentence);
 	}
 
 	public String getName() {
@@ -58,11 +58,11 @@ public class Func extends AbstractDef {
 		this.retorno = retorno;
 	}
 
-	public List<Def> getDef() {
-		return def;
+	public List<DefVar> getDefvar() {
+		return defvar;
 	}
-	public void setDef(List<Def> def) {
-		this.def = def;
+	public void setDefvar(List<DefVar> defvar) {
+		this.defvar = defvar;
 	}
 
 	public List<Sentence> getSentence() {
@@ -80,10 +80,10 @@ public class Func extends AbstractDef {
 	private String name;
 	private List<Parameter> parameter;
 	private Type retorno;
-	private List<Def> def;
+	private List<DefVar> defvar;
 	private List<Sentence> sentence;
 
 	public String toString() {
-       return "{name:" + getName() + ", parameter:" + getParameter() + ", retorno:" + getRetorno() + ", def:" + getDef() + ", sentence:" + getSentence() + "}";
+       return "{name:" + getName() + ", parameter:" + getParameter() + ", retorno:" + getRetorno() + ", defvar:" + getDefvar() + ", sentence:" + getSentence() + "}";
    }
 }

@@ -20,12 +20,12 @@ public class DefaultVisitor implements Visitor {
 		return null;
 	}
 
-	//	class Func { String name;  List<Parameter> parameter;  Type retorno;  List<Def> def;  List<Sentence> sentence; }
+	//	class Func { String name;  List<Parameter> parameter;  Type retorno;  List<DefVar> defvar;  List<Sentence> sentence; }
 	public Object visit(Func node, Object param) {
 		visitChildren(node.getParameter(), param);
 		if (node.getRetorno() != null)
 			node.getRetorno().accept(this, param);
-		visitChildren(node.getDef(), param);
+		visitChildren(node.getDefvar(), param);
 		visitChildren(node.getSentence(), param);
 		return null;
 	}

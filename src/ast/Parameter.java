@@ -51,7 +51,15 @@ public class Parameter extends AbstractDef {
 
 	private String name;
 	private Type type;
+	private Def definicion;
 
+	public Def getDefinicion(){
+		return definicion;
+	}
+
+	public void setDefinicion(Def def){
+		definicion = def;
+	}
 	public String toString() {
        return "{neme:" + getName() + ", type:" + getType() + "}";
    }

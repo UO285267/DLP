@@ -51,6 +51,15 @@ public class FuncCall extends AbstractSentence {
 
 	private String name;
 	private Expr args;
+	private Func definicion;
+	
+	public Func getDefinicion() {
+		return definicion;
+	}
+
+	public void setDefinicion(Func definicion) {
+		this.definicion = definicion;
+	}
 
 	public String toString() {
        return "{name:" + getName() + ", args:" + getArgs() + "}";

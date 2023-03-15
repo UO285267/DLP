@@ -52,6 +52,15 @@ public class MethodCallExpr extends AbstractExpr {
 
 	private String name;
 	private List<Expr> args;
+	private Func definicion;
+	
+	public Func getDefinicion() {
+		return definicion;
+	}
+
+	public void setDefinicion(Func definicion) {
+		this.definicion = definicion;
+	}
 
 	public String toString() {
        return "{name:" + getName() + ", args:" + getArgs() + "}";

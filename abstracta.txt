@@ -4,11 +4,11 @@ def ,expr, sentence, type
 NODES
 program -> AST*;
 
-func:def-> name:string parameter* retorno:type def* sentence*; 
+func:def-> name:string parameter* retorno:type defVar* sentence*; 
 
 defVar:def ->  name:string type; 
 
-parameter:def ->  neme:string type;
+parameter:def ->  name:string type;
 
 defStruct:def -> name:string parameter*;
 

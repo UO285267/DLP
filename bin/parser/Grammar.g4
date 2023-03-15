@@ -10,16 +10,16 @@ import Lexicon
 
 start returns[Program ast]
 
-	: {List<Def> def = new ArrayList<Def>(); List<Func> func = new ArrayList<Func>();}
-	(definicion{def.add($definicion.ast);}|funcion{func.add($funcion.ast);}|es+=estructura)* EOF { $ast = new Program(def,func,$es); }
+	: {List<AST> prog = new ArrayList<AST>();}
+	(definicion{prog.add($definicion.ast);}|funcion{prog.add($funcion.ast);}|estructura{prog.add($estructura.ast);})* EOF { $ast = new Program(prog); }
 	;
 
-estructura returns[StructType ast]
-	: 'struct' IDENT '{' (parametro ';')*'}' ';' { $ast = new StructType($IDENT);}
+estructura returns[DefStruct ast]
+	: 'struct' IDENT '{' (pa+=parametro ';')*'}' ';' { $ast = new DefStruct($IDENT,$pa);}
 	;
 
-definicion returns [Def ast]
-	:	'var ' IDENT ':' tipo';' {$ast = new Def($IDENT, $tipo.ast);}
+definicion returns [DefVar ast]
+	:	'var ' IDENT ':' tipo';' {$ast = new DefVar($IDENT, $tipo.ast);}
 	;
 
 sentencia returns[Sentence ast]
@@ -54,16 +54,16 @@ expr returns[Expr ast]
 	;
 
 funcion returns [Func ast]
-	: {List<Parameter> para = new ArrayList<Parameter>();List<Sentence> sent = new ArrayList<Sentence>(); List<Def> def = new ArrayList<Def>();}
+	: {List<Parameter> para = new ArrayList<Parameter>();List<Sentence> sent = new ArrayList<Sentence>(); List<DefVar> def = new ArrayList<DefVar>();}
 	IDENT '('p=parametro{para.add($p.ast);} (','pa=parametro {para.add($pa.ast);})*')' ':' tipo '{'(definicion{def.add($definicion.ast);})* (sentencia{sent.add($sentencia.ast);})+ '}'
 	{$ast = new Func($IDENT,para,$tipo.ast,def,sent);}
-	|{List<Parameter> para = new ArrayList<Parameter>();List<Sentence> sent = new ArrayList<Sentence>(); List<Def> def = new ArrayList<Def>();}
+	|{List<Parameter> para = new ArrayList<Parameter>();List<Sentence> sent = new ArrayList<Sentence>(); List<DefVar> def = new ArrayList<DefVar>();}
 	IDENT '('p=parametro{para.add($p.ast);} (','pa=parametro {para.add($pa.ast);})*')'  '{'(definicion{def.add($definicion.ast);})* (sentencia{sent.add($sentencia.ast);})+ '}'
 	{$ast = new Func($IDENT,para,null,def,sent);}
-	|{List<Sentence> sent = new ArrayList<Sentence>(); List<Def> def = new ArrayList<Def>();}
+	|{List<Sentence> sent = new ArrayList<Sentence>(); List<DefVar> def = new ArrayList<DefVar>();}
 	IDENT '('')' ':' tipo '{'(definicion{def.add($definicion.ast);})* (sentencia{sent.add($sentencia.ast);})+ '}'
 	{$ast = new Func($IDENT,null,$tipo.ast,def,sent);}
-	|{List<Sentence> sent = new ArrayList<Sentence>(); List<Def> def = new ArrayList<Def>();}
+	|{List<Sentence> sent = new ArrayList<Sentence>(); List<DefVar> def = new ArrayList<DefVar>();}
 	IDENT '('')' '{'(definicion{def.add($definicion.ast);})* (sentencia{sent.add($sentencia.ast);})+ '}'
 	{$ast = new Func($IDENT,null,null,def,sent);}
 	;

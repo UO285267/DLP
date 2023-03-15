@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.antlr.v4.runtime.DefaultErrorStrategy;
+import org.antlr.v4.runtime.atn.EpsilonTransition;
 
 import ast.*;
 import main.*;
@@ -20,19 +21,60 @@ public class Identification extends DefaultVisitor {
         this.errorManager = errorManager;
     }
 
+    public Object visit(Func node, Object param){
+        Func func = funcs.get(node.getName());
+        predicado(func== null, "Funcion ya definida: " + node.getName(), node); 
+
+        funcs.put(node.getName(), node);
+        
+        context.set();
+        super.visit(node, node);
+        context.reset();
+
+        for (Sentence se : node.getSentence()) {
+           se.setFunc(node); 
+        }
+        return null;
+    }
+
+    public Object visit(FuncCall node,Object param){
+        node.getArgs().accept(this, param);
+
+        Func func = funcs.get(node.getName());
+        predicado(func != null, "Funcion no definida: " + node.getName(), node);
+
+        node.setDefinicion(func);
+        return null;
+    }
+
+    public Object visit(MethodCallExpr node,Object param){
+        for (Expr expr : node.getArgs()) {
+            expr.accept(this, param);
+        }
+
+        Func func = funcs.get(node.getName());
+        predicado(func != null, "Funcion no definida: " + node.getName(), node);
+
+        node.setDefinicion(func);
+        return null;
+    }
+
     public Object visit(DefVar node, Object param) { 
         node.getType().accept(this, param); // No es necesario realmente
-        Def definicion = variables.get(node.getName()); 
+        Def definicion = context.getFromTop(node.getName()); 
         predicado(definicion == null, "Variable ya definida: " + node.getName(), node); 
-        variables.put(node.getName(), node); 
+        context.put(node.getName(), node); 
         return null; 
     }
 
     public Object visit(Parameter node, Object param) { 
         node.getType().accept(this, param); // No es necesario realmente
-        Def definicion = variables.get(node.getName()); 
+
+        DefVar definicion = context.getFromTop(node.getName()); 
         predicado(definicion == null, "Variable ya definida: " + node.getName(), node); 
-        variables.put(node.getName(), node); 
+        DefVar var = new DefVar(node.getName(), node.getType());
+
+        context.put(node.getName(), var); 
         return null; 
     }
 
@@ -52,7 +94,7 @@ public class Identification extends DefaultVisitor {
 
     // class Variable { String name; }
     public Object visit(Variable node, Object param) { 
-        Def definicion = variables.get(node.getString()); 
+        Def definicion = context.getFromAny(node.getString()); 
         predicado(definicion != null, "Variable no definida: " + node.getString(), node); 
         node.setDefinicion(definicion); // Enlazar referencia con definición
         return null; 
@@ -70,6 +112,7 @@ public class Identification extends DefaultVisitor {
         } 
 
     private ErrorManager errorManager;
-    private Map<String, Def> variables = new HashMap<String, Def>();
+    private ContextMap<String, DefVar> context = new ContextMap<String, DefVar>();
     private Map<String, DefStruct> estruct = new HashMap<String, DefStruct>();
+    private Map<String,Func> funcs = new HashMap<String, Func>();
 }

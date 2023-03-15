@@ -50,7 +50,7 @@ public class <nombre clase> extends DefaultVisitor {
 		return null;
 	}
 
-	//	class Func { String name;  List<Parameter> parameter;  Type retorno;  List<Def> def;  List<Sentence> sentence; }
+	//	class Func { String name;  List<Parameter> parameter;  Type retorno;  List<DefVar> defvar;  List<Sentence> sentence; }
 	public Object visit(Func node, Object param) {
 
 		// super.visit(node, param);
@@ -62,8 +62,8 @@ public class <nombre clase> extends DefaultVisitor {
 		if (node.getRetorno() != null)
 			node.getRetorno().accept(this, param);
 
-		if (node.getDef() != null)
-			for (Def child : node.getDef())
+		if (node.getDefvar() != null)
+			for (DefVar child : node.getDefvar())
 				child.accept(this, param);
 
 		if (node.getSentence() != null)

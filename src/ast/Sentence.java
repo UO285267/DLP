@@ -5,5 +5,7 @@
 package ast;
 
 public interface Sentence extends AST {
+    public void setFunc(Func func);
 
+    public Func getFunc();
 }
