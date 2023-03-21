@@ -327,14 +327,13 @@ public class ASTPrinter extends DefaultVisitor {
 		return null;
 	}
 
-	//	class Acces { Expr left;  String op;  String right; }
+	//	class Acces { Expr left; String right; }
 	public Object visit(Acces node, Object param) {
 		int indent = ((Integer)param).intValue();
 
 		printName(indent, "Acces", node, false);
 
 		visit(indent + 1, "left", "Expr",node.getLeft());
-		print(indent + 1, "op", "String", node.getOp());
 		print(indent + 1, "right", "String", node.getRight());
 		return null;
 	}

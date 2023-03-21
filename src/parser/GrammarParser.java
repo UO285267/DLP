@@ -876,10 +876,10 @@ public class GrammarParser extends Parser {
 						setState(217);
 						if (!(precpred(_ctx, 10))) throw new FailedPredicateException(this, "precpred(_ctx, 10)");
 						setState(218);
-						((ExprContext)_localctx).op = match(T__20);
+						match(T__20);
 						setState(219);
 						((ExprContext)_localctx).IDENT = match(IDENT);
-						((ExprContext)_localctx).ast =  new Acces(((ExprContext)_localctx).left.ast, (((ExprContext)_localctx).op!=null?((ExprContext)_localctx).op.getText():null), ((ExprContext)_localctx).IDENT);
+						((ExprContext)_localctx).ast =  new Acces(((ExprContext)_localctx).left.ast, ((ExprContext)_localctx).IDENT);
 						}
 						break;
 					}

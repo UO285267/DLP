@@ -41,7 +41,7 @@ expr returns[Expr ast]
 	| IDENT {$ast = new Variable($IDENT);}
 	| IDENT'('ex+=expr ( ','ex+=expr )* ')' {$ast =new MethodCallExpr($IDENT,$ex);}
 	| left=expr '[' right=expr ']'{$ast = new ArrayAcces($left.ast, $right.ast);}
-	| left=expr op='.' IDENT {$ast = new Acces($left.ast, $op.text, $IDENT);}
+	| left=expr '.' IDENT {$ast = new Acces($left.ast, $IDENT);}
 	| '(' expr ')' {$ast = $expr.ast ;}
 	|  '<' tipo '>' '(' expr ')' {$ast = new Cast($tipo.ast, $expr.ast);}
 	| left=expr op=('*' | '/') right=expr {$ast = new ExprAritmetica($left.ast, $op.text, $right.ast);}

@@ -16,8 +16,7 @@ Aclaraciones:
 //// DEFINICIONES de datos y tipos
 
 // Tipos simples ---------
-var a:int;
-var b:char;
+
 
 // Arrays ---------
 var c:[5] float;
@@ -32,10 +31,7 @@ struct Direccion {
 var d1:Direccion;
 var d2:Direccion;
 
-struct Persona {
-	edad:int;
-	direccion:Direccion;
-};
+
 
 // Combinación de Arrays y Structs -------------
 var f:[6] Persona;
@@ -49,17 +45,6 @@ var microsoft: Empresa;
 
 //// ------------------------------
 //// DEFINICIONES de funciones
-
-dobleSuma(a:int, b:int): int {
-	var local:int;
-
-	local = (a + b) * 2;
-	return local * 2;
-}
-
-escribeEdad(num:int) {
-	printsp microsoft.empleados[num].edad;
-}
 
 var z:int;	// Se puede definir entre funciones
 

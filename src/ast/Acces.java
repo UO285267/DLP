@@ -12,9 +12,9 @@ import visitor.*;
 
 public class Acces extends AbstractExpr {
 
-	public Acces(Expr left, String op, String right) {
+	public Acces(Expr left, String right) {
 		this.left = left;
-		this.op = op;
+		
 		this.right = right;
 
        // Lo siguiente se puede borrar si no se quiere la posicion en el fichero.
@@ -22,14 +22,13 @@ public class Acces extends AbstractExpr {
        setPositions(left);
 	}
 
-	public Acces(Object left, Object op, Object right) {
+	public Acces(Object left, Object right) {
 		this.left = (Expr) getAST(left);
-		this.op = (op instanceof Token) ? ((Token)op).getText() : (String) op;
 		this.right = (right instanceof Token) ? ((Token)right).getText() : (String) right;
 
        // Lo siguiente se puede borrar si no se quiere la posicion en el fichero.
        // Obtiene la linea/columna a partir de las de los hijos.
-       setPositions(left, op, right);
+       setPositions(left, right);
 	}
 
 	public Expr getLeft() {
@@ -37,13 +36,6 @@ public class Acces extends AbstractExpr {
 	}
 	public void setLeft(Expr left) {
 		this.left = left;
-	}
-
-	public String getOp() {
-		return op;
-	}
-	public void setOp(String op) {
-		this.op = op;
 	}
 
 	public String getRight() {
@@ -59,10 +51,9 @@ public class Acces extends AbstractExpr {
 	}
 
 	private Expr left;
-	private String op;
 	private String right;
 
 	public String toString() {
-       return "{left:" + getLeft() + ", op:" + getOp() + ", right:" + getRight() + "}";
+       return "{left:" + getLeft() + ", right:" + getRight() + "}";
    }
 }
