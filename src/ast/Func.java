@@ -86,4 +86,11 @@ public class Func extends AbstractDef {
 	public String toString() {
        return "{name:" + getName() + ", parameter:" + getParameter() + ", retorno:" + getRetorno() + ", defvar:" + getDefvar() + ", sentence:" + getSentence() + "}";
    }
+
+	@Override
+	public Type getType() {
+		if(retorno != null)
+			return retorno;
+		return new VoidType();
+	}
 }

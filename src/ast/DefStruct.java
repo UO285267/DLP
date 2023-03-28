@@ -57,5 +57,10 @@ public class DefStruct extends AbstractDef {
        return "{name:" + getName() + ", parameter:" + getParameter() + "}";
    }
 
+	@Override
+	public Type getType() {
+		return new StructType(name);
+	}
+
 
 }

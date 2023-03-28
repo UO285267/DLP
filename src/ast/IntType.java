@@ -19,4 +19,9 @@ public class IntType extends AbstractType {
 	public String toString() {
        return "{IntType}";
    }
+
+   @Override
+	public boolean esPrimitivo() {
+		return true ; 
+	}
 }

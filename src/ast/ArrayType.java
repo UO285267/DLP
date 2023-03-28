@@ -55,4 +55,6 @@ public class ArrayType extends AbstractType {
 	public String toString() {
        return "{index:" + getIndex() + ", type:" + getType() + "}";
    }
+
+	
 }

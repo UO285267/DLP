@@ -36,7 +36,7 @@ public class DefVar extends AbstractDef {
 	public void setName(String name) {
 		this.name = name;
 	}
-
+	@Override
 	public Type getType() {
 		return type;
 	}

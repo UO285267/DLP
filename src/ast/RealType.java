@@ -19,4 +19,8 @@ public class RealType extends AbstractType {
 	public String toString() {
        return "{RealType}";
    }
+   @Override
+	public boolean esPrimitivo() {
+		return true ; 
+	}
 }

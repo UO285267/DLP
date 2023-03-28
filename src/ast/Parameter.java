@@ -36,7 +36,8 @@ public class Parameter extends AbstractDef {
 	public void setName(String neme) {
 		this.name = neme;
 	}
-
+	
+	@Override
 	public Type getType() {
 		return type;
 	}

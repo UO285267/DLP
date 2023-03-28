@@ -44,10 +44,16 @@ public class StructType extends AbstractType {
 	public void setStruct(DefStruct struct) {
 		this.struct = struct;
 	}
+	
 
 	private String name;
 
 	public String toString() {
        return "{name:" + getName() + "}";
    }
+
+	@Override
+	public boolean esPrimitivo() {
+		return false ;
+	}
 }
