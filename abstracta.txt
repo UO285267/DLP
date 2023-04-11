@@ -31,7 +31,7 @@ funcCall:sentence -> name:string args:expr ;
 exprAritmetica:expr -> left:expr op:string right:expr ;
 exprLogica:expr -> left:expr op:string right:expr ;
 exprLogicaNe:expr -> expr;
-acces:expr -> left:expr op:string right:string ;
+acces:expr -> left:expr right:string ;
 arrayAcces:expr -> left:expr right:expr ;
 cast:expr -> typeToConvert:type expr ;
 litEnt:expr -> string ;

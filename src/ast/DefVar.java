@@ -12,6 +12,16 @@ import visitor.*;
 
 public class DefVar extends AbstractDef {
 
+	private int address;
+
+	public int getAddress() {
+		return address;
+	}
+
+	public void setAddress(int addres) {
+		this.address = addres;
+	}
+
 	public DefVar(String name, Type type) {
 		this.name = name;
 		this.type = type;

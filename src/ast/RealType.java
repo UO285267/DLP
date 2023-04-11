@@ -23,4 +23,10 @@ public class RealType extends AbstractType {
 	public boolean esPrimitivo() {
 		return true ; 
 	}
+
+
+@Override
+public int getSize() {
+	return 4;
+}
 }

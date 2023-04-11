@@ -25,4 +25,10 @@ public class CharType extends AbstractType {
 	public boolean esPrimitivo() {
 		return true ; 
 	}
+
+
+	@Override
+	public int getSize() {
+		return 1 ;
+	}
 }

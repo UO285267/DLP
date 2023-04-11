@@ -24,4 +24,10 @@ public class IntType extends AbstractType {
 	public boolean esPrimitivo() {
 		return true ; 
 	}
+
+
+@Override
+public int getSize() {
+	return 2;
+}
 }

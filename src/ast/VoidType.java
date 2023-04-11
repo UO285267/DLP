@@ -19,4 +19,10 @@ public class VoidType extends AbstractType {
 	public String toString() {
        return "{VoidType}";
    }
+
+
+	@Override
+	public int getSize() {
+		return 0;
+	}
 }

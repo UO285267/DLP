@@ -53,6 +53,15 @@ public class Parameter extends AbstractDef {
 	private String name;
 	private Type type;
 	private Def definicion;
+	private int address;
+
+	public int getAddress() {
+		return address;
+	}
+
+	public void setAddress(int address) {
+		this.address = address;
+	}
 
 	public Def getDefinicion(){
 		return definicion;

@@ -56,4 +56,13 @@ public class StructType extends AbstractType {
 	public boolean esPrimitivo() {
 		return false ;
 	}
+
+	@Override
+	public int getSize() {
+		int size = 0 ;
+		for (Parameter par : struct.getParameter()) {
+			size += par.getType().getSize();
+		}
+		return size; 
+	}
 }

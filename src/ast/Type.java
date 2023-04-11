@@ -6,4 +6,5 @@ package ast;
 
 public interface Type extends AST {
     public boolean esPrimitivo();
+    public int getSize();
 }
