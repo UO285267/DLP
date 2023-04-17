@@ -25,9 +25,12 @@ public class IntType extends AbstractType {
 		return true ; 
 	}
 
-
-@Override
-public int getSize() {
-	return 2;
-}
+	@Override
+	public boolean isNumber(){
+		return true;
+	}
+	@Override
+	public int getSize() {
+		return 2;
+	}
 }

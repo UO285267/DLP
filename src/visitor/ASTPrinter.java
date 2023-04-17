@@ -126,19 +126,17 @@ public class ASTPrinter extends DefaultVisitor {
 
 		print(indent + 1, "name", "String", node.getName());
 		visit(indent + 1, "type", "Type",node.getType());
-		print( indent + 1 , "address", "int", node.getAddress());
 		return null;
 	}
 
-	//	class Parameter { String neme;  Type type; }
+	//	class Parameter { String name;  Type type; }
 	public Object visit(Parameter node, Object param) {
 		int indent = ((Integer)param).intValue();
 
 		printName(indent, "Parameter", node, false);
 
-		print(indent + 1, "neme", "String", node.getName());
+		print(indent + 1, "name", "String", node.getName());
 		visit(indent + 1, "type", "Type",node.getType());
-		print(indent + 1 , "offset", "int", node.getAddress());
 		return null;
 	}
 
@@ -150,7 +148,6 @@ public class ASTPrinter extends DefaultVisitor {
 
 		print(indent + 1, "name", "String", node.getName());
 		visit(indent + 1, "parameter", "List<Parameter>",node.getParameter());
-		
 		return null;
 	}
 
@@ -285,14 +282,14 @@ public class ASTPrinter extends DefaultVisitor {
 		return null;
 	}
 
-	//	class FuncCall { String name;  Expr args; }
+	//	class FuncCall { String name;  List<Expr> args; }
 	public Object visit(FuncCall node, Object param) {
 		int indent = ((Integer)param).intValue();
 
 		printName(indent, "FuncCall", node, false);
 
 		print(indent + 1, "name", "String", node.getName());
-		visit(indent + 1, "args", "Expr",node.getArgs());
+		visit(indent + 1, "args", "List<Expr>",node.getArgs());
 		return null;
 	}
 
@@ -330,7 +327,7 @@ public class ASTPrinter extends DefaultVisitor {
 		return null;
 	}
 
-	//	class Acces { Expr left; String right; }
+	//	class Acces { Expr left;  String right; }
 	public Object visit(Acces node, Object param) {
 		int indent = ((Integer)param).intValue();
 

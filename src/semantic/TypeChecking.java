@@ -54,6 +54,95 @@ public class TypeChecking extends DefaultVisitor {
      * @param posicionError Fila y columna del fichero donde se ha producido el error.
      */
 
+     public Object visit(ReturnNode node, Object param) {
+
+        super.visit(node, param);
+       
+       if (node.getFunc().getRetorno() == null) {
+            // expr == null
+            
+        } else {
+            // expr.type ≠ VoidType
+            predicado(node.getExpr() != null, "El retorno no puede ser de tipo Void", node.getEnd());
+            if(node.getExpr()!= null)
+                predicado(node.getExpr().getType().getClass()  == node.getFunc().getRetorno().getClass(), "Tipo de retorno no coincide", node.getEnd());
+    
+        }
+
+        
+
+        return null;
+    }
+
+     public Object visit(FuncCall node, Object param) { 
+        if(node.getArgs() != null){
+            for(Expr exp: node.getArgs() )
+                exp.accept(this, param);
+        }
+        
+        boolean eqParams = false;
+        if(node.getDefinicion().getParameter() != null)
+            eqParams = node.getArgs().size() == node.getDefinicion().getParameter().size();
+        predicado(eqParams,"El número de parámetos no coincide", node.getStart());
+        
+        if(eqParams){
+            boolean sameType =true;
+            for(int i = 0 ; i < node.getArgs().size();i++){
+                if(!mismoTipo(node.getArgs().get(i),node.getDefinicion().getParameter().get(i))){
+                    sameType = false;
+                }
+            }
+            predicado(sameType, "El tipo de los parámetros no coincide", node.getStart());
+        }
+        return null; 
+    }
+
+     public Object visit(Cast node, Object param) { 
+        if(node.getTypeToConvert() != null){
+            node.getTypeToConvert().accept(this, param);
+        }
+        node.getExpr().accept(this, param);
+
+        predicado(esPrimitivo(node.getTypeToConvert()),
+         "El tipo a convertir tiene que ser primitivo", node.getStart());
+        predicado(esPrimitivo(node.getExpr().getType()), 
+        "Solo se pueden convertir tipos simples", node.getStart());
+        predicado(node.getTypeToConvert().getClass() != node.getExpr().getType().getClass(),
+        "Los tipos del cast tienen que ser diferentes", node.getStart());
+
+        node.setType(node.getTypeToConvert());
+        node.setLValue(false);
+
+        return null; 
+    }
+    
+
+     public Object visit(MethodCallExpr node, Object param) { 
+        if(node.getArgs() != null){
+            for(Expr exp: node.getArgs() )
+                exp.accept(this, param);
+        }
+        
+        boolean eqParams = false;
+        if(node.getDefinicion().getParameter() != null)
+            eqParams = node.getArgs().size() == node.getDefinicion().getParameter().size();
+        predicado(eqParams,"El número de parámetos no coincide", node.getStart());
+        
+        predicado(node.getDefinicion().getRetorno() == null , 
+            "La funcion no tiene retorno",node.getStart());
+        if(eqParams){
+            boolean sameType =true;
+            for(int i = 0 ; i < node.getArgs().size();i++){
+                if(!mismoTipo(node.getArgs().get(i),node.getDefinicion().getParameter().get(i))){
+                    sameType = false;
+                }
+            }
+            predicado(sameType, "El tipo de los parámetros no coincide", node.getStart());
+        }
+        node.setType(node.getDefinicion().getRetorno());
+        return null; 
+    }
+
      public Object visit(Assignment node, Object param) { 
         super.visit(node, param); 
         predicado(mismoTipo(node.getLeft(), node.getRight()), "Los operandos deben ser del mismo tipo", node); 
@@ -67,29 +156,105 @@ public class TypeChecking extends DefaultVisitor {
         super.visit(node, param); 
         predicado(esPrimitivo(node.getLeft().getType()), "Debe ser un tipo simple");
         predicado(esPrimitivo(node.getRight().getType()), "Debe ser un tipo simple");
+
         predicado(mismoTipo(node.getLeft(), node.getRight()), "Los operandos deben ser del mismo tipo", node); 
+        if(node.getOp().equals("%")){
+            predicado(node.getLeft().getType().getClass() == IntType.class,
+                    "Los operandos deben de ser enteros", node.getStart());
+            predicado(node.getRight().getType().getClass() == IntType.class,
+                    "Los operandos deben de ser enteros", node.getStart());
+        }else{
+            predicado(isNumber(node.getRight().getType()),"Los operandos deben de ser numeros",node.getStart());
+            predicado(isNumber(node.getLeft().getType()),"Los operandos deben de ser numeros",node.getStart());
+        }
         node.setType(node.getLeft().getType()); 
         node.setLValue(false); 
         return null; 
     } 
 
     public Object visit(ExprLogica node, Object param) { 
+        
         super.visit(node, param); 
         predicado(esPrimitivo(node.getLeft().getType()), "Debe ser un tipo simple");
        
         predicado(mismoTipo(node.getLeft(), node.getRight()), "Los operandos deben ser del mismo tipo", node); 
-        node.setType(node.getLeft().getType()); 
+        if(node.getOp().equals("&&")|| node.getOp().equals("||")){
+            predicado(node.getLeft().getType().getClass() == IntType.class,
+                    "Los operandos deben de ser enteros", node.getStart());
+            predicado(node.getRight().getType().getClass() == IntType.class,
+                    "Los operandos deben de ser enteros", node.getStart());
+        }else{
+            predicado(isNumber(node.getRight().getType()),"Los operandos deben de ser numeros",node.getStart());
+            predicado(isNumber(node.getLeft().getType()),"Los operandos deben de ser numeros",node.getStart());
+        }
+        node.setType(new IntType()); 
         node.setLValue(false); 
         return null; 
     } 
     
-    public Object visit(Acces node , Object param){
-        StructType tipo ;
-        if(node.getLeft().getType() instanceof StructType)
-            tipo = (StructType) node.getLeft().getType();
-        else
-        return null;
+    public Object visit(ExprLogicaNe node, Object param) {
 
+    
+
+        if (node.getExpr() != null)
+            node.getExpr().accept(this, param);
+
+   
+        predicado(node.getExpr().getType().getClass() == IntType.class,
+                "El tipo de la expresión tiene que ser entero", node.getStart());
+
+        
+        node.setType(new IntType());
+        
+        node.setLValue(false);
+        return null;
+    }
+
+    public Object visit(Acces node , Object param){
+        if (node.getLeft() != null)
+            node.getLeft().accept(this, param);
+
+         predicado(node.getLeft().getType() instanceof StructType,
+                "La expresión de la izquierda tiene que ser de tipo estructura", node.getStart());
+
+        Parameter par = null;
+
+        if (node.getLeft().getType() instanceof StructType) {
+            StructType tipo = (StructType) node.getLeft().getType();
+            for (Parameter d : tipo.getStruct().getParameter()){
+                if (d.getName().equals(node.getRight())) {
+                    par = d;
+                }
+            }
+            predicado(par != null, "El campo " + node.getRight() + " no está definido", node.getStart());
+        }
+        if (par != null)
+            node.setType(par.getType());
+        else
+            node.setType(node.getLeft().getType()); // para evitar NullPointer
+
+        node.setLValue(true);
+        return null ; 
+    }
+
+    public Object visit(ArrayAcces node , Object param){
+        
+        super.visit(node, param);
+
+         predicado(node.getLeft().getType() instanceof ArrayType,
+                "La expresión de la izquierda tiene que ser de tipo array", node.getStart());
+
+                predicado(node.getRight().getType().getClass() == IntType.class, "El índice tiene que ser un entero",
+                node.getStart());
+
+        if (node.getLeft().getType() instanceof ArrayType) {
+            ArrayType tipo = (ArrayType) node.getLeft().getType();
+            node.setType(tipo.getType());
+        }else{
+            node.setType(new VoidType());
+        }
+        
+        node.setLValue(true);
         return null ; 
     }
 
@@ -118,12 +283,20 @@ public class TypeChecking extends DefaultVisitor {
     } 
 
 
+    private boolean isNumber(Type type){
+        return type.isNumber();
+    }
+
 
     private boolean esPrimitivo(Type type){
         return type.esPrimitivo();
     }
 
     private boolean mismoTipo(Expr a, Expr b) { 
+        return (a.getType().getClass() == b.getType().getClass()); 
+    } 
+
+    private boolean mismoTipo(Expr a, Parameter b) { 
         return (a.getType().getClass() == b.getType().getClass()); 
     } 
 

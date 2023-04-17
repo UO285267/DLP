@@ -24,9 +24,12 @@ public class RealType extends AbstractType {
 		return true ; 
 	}
 
-
-@Override
-public int getSize() {
-	return 4;
-}
+	@Override
+	public boolean isNumber(){
+		return true;
+	}
+	@Override
+	public int getSize() {
+		return 4;
+	}
 }

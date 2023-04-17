@@ -4,15 +4,16 @@
 
 package ast;
 
+import java.util.*;
 import org.antlr.v4.runtime.*;
 
 import visitor.*;
 
-//	funcCall:sentence -> name:String  args:expr
+//	funcCall:sentence -> name:String  args:expr*
 
 public class FuncCall extends AbstractSentence {
 
-	public FuncCall(String name, Expr args) {
+	public FuncCall(String name, List<Expr> args) {
 		this.name = name;
 		this.args = args;
 
@@ -23,7 +24,7 @@ public class FuncCall extends AbstractSentence {
 
 	public FuncCall(Object name, Object args) {
 		this.name = (name instanceof Token) ? ((Token)name).getText() : (String) name;
-		this.args = (Expr) getAST(args);
+		this.args = this.<Expr>getAstFromContexts(args);
 
        // Lo siguiente se puede borrar si no se quiere la posicion en el fichero.
        // Obtiene la linea/columna a partir de las de los hijos.
@@ -37,10 +38,10 @@ public class FuncCall extends AbstractSentence {
 		this.name = name;
 	}
 
-	public Expr getArgs() {
+	public List<Expr> getArgs() {
 		return args;
 	}
-	public void setArgs(Expr args) {
+	public void setArgs(List<Expr> args) {
 		this.args = args;
 	}
 
@@ -50,9 +51,7 @@ public class FuncCall extends AbstractSentence {
 	}
 
 	private String name;
-	private Expr args;
-	private Func definicion;
-	
+	private List<Expr> args;
 	public Func getDefinicion() {
 		return definicion;
 	}
@@ -60,6 +59,8 @@ public class FuncCall extends AbstractSentence {
 	public void setDefinicion(Func definicion) {
 		this.definicion = definicion;
 	}
+
+	private Func definicion;
 
 	public String toString() {
        return "{name:" + getName() + ", args:" + getArgs() + "}";

@@ -37,7 +37,7 @@ public class DefaultVisitor implements Visitor {
 		return null;
 	}
 
-	//	class Parameter { String neme;  Type type; }
+	//	class Parameter { String name;  Type type; }
 	public Object visit(Parameter node, Object param) {
 		if (node.getType() != null)
 			node.getType().accept(this, param);
@@ -137,10 +137,9 @@ public class DefaultVisitor implements Visitor {
 		return null;
 	}
 
-	//	class FuncCall { String name;  Expr args; }
+	//	class FuncCall { String name;  List<Expr> args; }
 	public Object visit(FuncCall node, Object param) {
-		if (node.getArgs() != null)
-			node.getArgs().accept(this, param);
+		visitChildren(node.getArgs(), param);
 		return null;
 	}
 
@@ -169,7 +168,7 @@ public class DefaultVisitor implements Visitor {
 		return null;
 	}
 
-	//	class Acces { Expr left;  String op;  String right; }
+	//	class Acces { Expr left;  String right; }
 	public Object visit(Acces node, Object param) {
 		if (node.getLeft() != null)
 			node.getLeft().accept(this, param);

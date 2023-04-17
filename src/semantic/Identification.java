@@ -8,8 +8,6 @@ package semantic;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.antlr.v4.runtime.DefaultErrorStrategy;
-import org.antlr.v4.runtime.atn.EpsilonTransition;
 
 import ast.*;
 import main.*;
@@ -32,13 +30,37 @@ public class Identification extends DefaultVisitor {
         context.reset();
 
         for (Sentence se : node.getSentence()) {
+
+            if(se instanceof IfElseSentence ){
+                IfElseSentence s = (IfElseSentence) se;
+                for(Sentence sen: s.getIftrue()){
+                    sen.setFunc(node);
+                }
+                for(Sentence sen: s.getElse1()){
+                    sen.setFunc(node);
+                }
+            }
+            if(se instanceof IfSentence ){
+                IfSentence s = (IfSentence) se;
+                for(Sentence sen: s.getIftrue()){
+                    sen.setFunc(node);
+                }
+            }
+            if(se instanceof WhileSentence ){
+                WhileSentence s = (WhileSentence) se;
+                for(Sentence sen: s.getSentence()){
+                    sen.setFunc(node);
+                }
+            }
            se.setFunc(node); 
         }
         return null;
     }
 
     public Object visit(FuncCall node,Object param){
-        node.getArgs().accept(this, param);
+        for (Expr expr : node.getArgs()) {
+            expr.accept(this, param);
+        }
 
         Func func = funcs.get(node.getName());
         predicado(func != null, "Funcion no definida: " + node.getName(), node);

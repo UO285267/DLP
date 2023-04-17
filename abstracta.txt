@@ -26,7 +26,7 @@ ifSentence:sentence -> condition :expr iftrue:sentence*;
 ifElseSentence:sentence -> condition:expr iftrue:sentence* else1:sentence*;
 whileSentence:sentence -> condition:expr sentence*;
 returnNode:sentence -> expr;
-funcCall:sentence -> name:string args:expr ;
+funcCall:sentence -> name:string args:* ;
 
 exprAritmetica:expr -> left:expr op:string right:expr ;
 exprLogica:expr -> left:expr op:string right:expr ;

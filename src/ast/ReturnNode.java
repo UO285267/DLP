@@ -40,6 +40,19 @@ public class ReturnNode extends AbstractSentence {
 		return v.visit(this, param);
 	}
 
+	
+    @Override
+    public void setFunc(Func func) {
+        // TODO Auto-generated method stub
+        this.func = func ;
+    }
+
+    @Override
+    public Func getFunc() {
+        // TODO Auto-generated method stub
+        return func;
+    }
+	private Func func;
 	private Expr expr;
 
 	public String toString() {

@@ -11,5 +11,10 @@ public abstract class AbstractType extends AbstractAST implements Type {
         
         return false;
     }
+
+    @Override
+    public boolean isNumber(){
+        return false;
+    }
     
 }
