@@ -25,4 +25,9 @@ public class VoidType extends AbstractType {
 	public int getSize() {
 		return 0;
 	}
+
+	@Override
+	public String getMAPLName() { 
+		return "void"; 
+	} 
 }

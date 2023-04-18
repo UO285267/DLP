@@ -17,4 +17,9 @@ public abstract class AbstractType extends AbstractAST implements Type {
         return false;
     }
     
+    @Override
+	public char getSuffix() { 
+		return ' '; 
+	} 
+ 
 }

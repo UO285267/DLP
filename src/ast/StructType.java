@@ -65,4 +65,9 @@ public class StructType extends AbstractType {
 		}
 		return size; 
 	}
+
+	@Override
+	public String getMAPLName() { 
+		return getName(); 
+	} 
 }

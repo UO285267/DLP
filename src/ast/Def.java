@@ -7,6 +7,7 @@ package ast;
 public interface Def extends AST {
     public Type getType();
     
+   
     String getName();
     
 

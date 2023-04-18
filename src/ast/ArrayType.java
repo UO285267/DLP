@@ -61,5 +61,9 @@ public class ArrayType extends AbstractType {
 		return index * type.getSize();
 	}
 
+	@Override
+	public String getMAPLName() { 
+		return "" + getIndex() + "*" + getType().getMAPLName() ; 
+	} 
 	
 }

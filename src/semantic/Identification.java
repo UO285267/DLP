@@ -116,7 +116,7 @@ public class Identification extends DefaultVisitor {
 
     // class Variable { String name; }
     public Object visit(Variable node, Object param) { 
-        Def definicion = context.getFromAny(node.getString()); 
+        DefVar definicion = context.getFromAny(node.getString()); 
         predicado(definicion != null, "Variable no definida: " + node.getString(), node); 
         node.setDefinicion(definicion); // Enlazar referencia con definición
         return null; 

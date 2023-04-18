@@ -44,14 +44,18 @@ public class MemoryAllocation extends DefaultVisitor {
     public Object visit(Func func, Object param) {
         int offsetLocal = 0; 
         int offset = 4 ;
-        for(int i = func.getParameter().size() -1 ; i >= 0; i--){
-            func.getParameter().get(i).setAddress(offset);
-            offset += func.getParameter().get(i).getType().getSize();
+        if(func.getParameter() != null){
+            for(int i = func.getParameter().size() -1 ; i >= 0; i--){
+                func.getParameter().get(i).setAddress(offset);
+                offset += func.getParameter().get(i).getType().getSize();
+            }
         }
-        for(DefVar var :func.getDefvar()){
-            
-            offsetLocal += var.getType().getSize();
-            var.setAddress(-offsetLocal);
+        if(func.getDefvar() != null){
+            for(DefVar var :func.getDefvar()){
+                
+                offsetLocal += var.getType().getSize();
+                var.setAddress(-offsetLocal);
+            }
         }
         return null;
     }

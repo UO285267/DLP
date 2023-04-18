@@ -31,4 +31,13 @@ public class CharType extends AbstractType {
 	public int getSize() {
 		return 1 ;
 	}
+
+	@Override
+	public char getSuffix() { 
+		return 'b'; 
+	} 
+	@Override
+	public String getMAPLName() { 
+		return "byte"; 
+	} 
 }

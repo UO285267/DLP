@@ -8,4 +8,7 @@ public interface Type extends AST {
     public boolean esPrimitivo();
     public int getSize();
     public boolean isNumber();
+    char getSuffix(); 
+    String getMAPLName(); 
+    
 }

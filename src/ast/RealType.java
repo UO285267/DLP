@@ -32,4 +32,13 @@ public class RealType extends AbstractType {
 	public int getSize() {
 		return 4;
 	}
+
+	@Override
+	public char getSuffix() { 
+		return 'f'; 
+	} 
+	@Override
+	public String getMAPLName() { 
+		return "float"; 
+	} 
 }

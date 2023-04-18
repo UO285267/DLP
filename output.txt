@@ -1,0 +1,64 @@
+#source "source.txt"
+#GLOBAL a:int
+#GLOBAL b:float
+#type Punto: {
+x:float
+y:float
+}
+#GLOBAL v:5*int
+#GLOBAL p:Punto
+
+#line 26
+pusha 0
+pushi 1111
+storei
+
+#line 27
+pusha 2
+pushf 2222.2
+storef
+
+#line 28
+pusha 6
+pushi 3
+pushi 3333
+storei
+
+#line 29
+pusha 16
+pushf 4444.4
+storef
+
+#line 31
+pusha 0
+loadi
+outi
+
+#line 32
+pusha 2
+loadf
+pusha 16
+load 
+addf
+outf
+
+#line 33
+pusha 6
+load 
+pushi 3
+outi
+
+#line 35
+pusha 0
+loadi
+pushi 0
+pusha 2
+loadf
+pushf 3333.3
+outi
+
+#line 36
+pusha 2
+loadf
+outi
+halt
