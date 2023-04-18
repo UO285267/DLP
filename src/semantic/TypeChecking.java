@@ -68,9 +68,6 @@ public class TypeChecking extends DefaultVisitor {
                 predicado(node.getExpr().getType().getClass()  == node.getFunc().getRetorno().getClass(), "Tipo de retorno no coincide", node.getEnd());
     
         }
-
-        
-
         return null;
     }
 
