@@ -56,6 +56,14 @@ public  class CodeSelection extends DefaultVisitor {
         line(node); 
         node.getExpr().accept(this, CodeFunction.VALUE); 
         out("out", node.getExpr().getType()); 
+        if (node.getString().equalsIgnoreCase("println")) {
+            out("pushb 10");
+            out("outb");
+        }
+        if (node.getString().equalsIgnoreCase("printsp")) {
+            out("pushb 32");
+            out("outb");
+        }
         return null; 
     } 
 
@@ -72,6 +80,18 @@ public  class CodeSelection extends DefaultVisitor {
         node.getLeft().accept(this, CodeFunction.VALUE); 
         node.getRight().accept(this, CodeFunction.VALUE); 
         out(instruccion.get(node.getOp()),node.getType()); 
+        return null; 
+    } 
+
+    public Object visit(ExprLogica node, Object param) { 
+        assert (param == CodeFunction.VALUE); 
+        node.getLeft().accept(this, CodeFunction.VALUE); 
+        node.getRight().accept(this, CodeFunction.VALUE); 
+        if(node.getOp().equals("&&") ||node.getOp().equals("||") ){
+            out(instruccion.get(node.getOp())); 
+        }else{
+            out(instruccion.get(node.getOp()),node.getLeft().getType()); 
+        }
         return null; 
     } 
 
@@ -96,6 +116,84 @@ public  class CodeSelection extends DefaultVisitor {
             out("pusha " + node.getDefinicion().getAddress()); 
         } 
         return null; 
+    } 
+
+
+    // class Cast
+    public Object visit(Cast node, Object param) { 
+        if (node.getExpr() != null)
+            node.getExpr().accept(this, CodeFunction.VALUE);
+
+        out(node.getExpr().getType().getSuffix() + "2" + node.getTypeToConvert().getSuffix());
+        return null ;
+    } 
+
+    // class Parameter
+    public Object visit(Parameter node, Object param) { 
+        if (((CodeFunction) param) == CodeFunction.VALUE) { 
+            visit(node, CodeFunction.ADDRESS); 
+            out("load", node.getType()); 
+        } else { // Funcion.DIRECCION
+            assert (param == CodeFunction.ADDRESS); 
+            out("pusha " + node.getAddress()); 
+        } 
+        return null; 
+    } 
+
+    // class Acces 
+    public Object visit(Acces node, Object param) { 
+        StructType tipo = (StructType) node.getLeft().getType();
+        if (((CodeFunction) param) == CodeFunction.VALUE) { 
+            node.getLeft().accept(this,  CodeFunction.ADDRESS);
+            for(Parameter p : tipo.getStruct().getParameter()){
+                if(p.getName().equals(node.getRight())){
+                    out("push " + p.getAddress()); 
+                    out("add");
+                    out("load" + p.getType().getSuffix());
+                    return null;
+                }
+                    
+            }
+        } else  {
+            assert (param == CodeFunction.ADDRESS); 
+            node.getLeft().accept(this,  CodeFunction.ADDRESS);
+            for(Parameter p : tipo.getStruct().getParameter()){
+                if(p.getName().equals(node.getRight())){
+                    out("push " + p.getAddress()); 
+                    out("add");
+                   
+                    return null;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    // class ArrayAcces 
+    public Object visit(ArrayAcces node, Object param) { 
+       
+
+        ArrayType tipo = (ArrayType) node.getLeft().getType();
+
+        if (((CodeFunction) param) == CodeFunction.VALUE) { 
+            node.getLeft().accept(this,  CodeFunction.ADDRESS);
+            node.getRight().accept(this, CodeFunction.VALUE);
+
+            out("push " + tipo.getType().getSize());
+            out("mul");
+            out("add");
+            out("load" + tipo.getType().getSuffix());
+        } else  {
+            assert (param == CodeFunction.ADDRESS); 
+            node.getLeft().accept(this, CodeFunction.ADDRESS);
+            out("push " + tipo.getType().getSize());
+            node.getRight().accept(this, CodeFunction.VALUE);
+            out("mul");
+            out("add");
+        }
+
+        return null;
     } 
 
     // class LitEnt { String string; }
