@@ -5,6 +5,7 @@
 
 package semantic;
 
+
 import ast.*;
 import main.*;
 import visitor.*;
@@ -54,6 +55,42 @@ public class TypeChecking extends DefaultVisitor {
      * @param posicionError Fila y columna del fichero donde se ha producido el error.
      */
 
+     public Object visit(Print node, Object param) {
+        node.getExpr().accept(this, param);
+
+        predicado(esPrimitivo(node.getExpr().getType()), "La expresion debe ser primitivo",node);
+       
+        return null;
+    }
+
+     public Object visit(Read node, Object param) {
+        node.getExpr().accept(this, param);
+
+        predicado(esPrimitivo(node.getExpr().getType()), "La expresion debe ser primitivo",node);
+        predicado(node.getExpr().isLValue(),"La expresion tiene que ser un lValue" ,node.getStart());
+        return null;
+    }
+
+
+     public Object visit(IfElseSentence node, Object param) {
+        super.visit(node, param);
+        predicado(node.getCondition().getType() instanceof IntType, "La ocndicion debe ser un numero entero",node.getStart());
+        return null;
+    }
+
+     public Object visit(IfSentence node, Object param) {
+        super.visit(node, param);
+        predicado(node.getCondition().getType() instanceof IntType, "La ocndicion debe ser un numero entero",node.getStart());
+        return null;
+    }
+
+
+     public Object visit(WhileSentence node, Object param) {
+        super.visit(node, param);
+        predicado(node.getCondition().getType() instanceof IntType, "La ocndicion debe ser un numero entero",node.getStart());
+        return null;
+    }
+
      public Object visit(ReturnNode node, Object param) {
 
         super.visit(node, param);
@@ -71,7 +108,65 @@ public class TypeChecking extends DefaultVisitor {
         return null;
     }
 
-     public Object visit(FuncCall node, Object param) { 
+    public Object visit(Parameter node, Object param) {
+        node.getType().accept(this, param);
+
+        predicado(esPrimitivo(node.getType()), "El parametro debe ser primitivo",node);
+        return null;
+    }
+
+    public Object visit(Func node , Object param){
+
+        boolean hasReturn = false;
+        for (Sentence s : node.getSentence()) {
+            if (s instanceof ReturnNode) {
+                hasReturn = true;
+                break;
+            }
+            if (s instanceof IfElseSentence) {
+                IfElseSentence se = (IfElseSentence) s;
+                for (Sentence sent : se.getIftrue())
+                    if (sent instanceof ReturnNode) {
+                        hasReturn = true;
+                        break;
+                    }
+                for (Sentence sent : se.getElse1())
+                    if (sent instanceof ReturnNode) {
+                        hasReturn = true;
+                        break;
+                    }
+            }else if(s instanceof IfSentence){
+                IfSentence se = (IfSentence) s;
+                for (Sentence sent : se.getIftrue())
+                    if (sent instanceof ReturnNode) {
+                        hasReturn = true;
+                        break;
+                    }
+            }else if (s instanceof WhileSentence) {
+                WhileSentence se = (WhileSentence) s;
+                for (Sentence sent : se.getSentence())
+                    if (sent instanceof ReturnNode) {
+                        hasReturn = true;
+                        break;
+                    }
+            }
+            if (node.getRetorno() != null) {
+                // returnNode ⊂ method.definition
+                predicado(hasReturn, "Este método debe retornar un resultado de tipo: " + node.getRetorno(),
+                        node.getStart());
+                // si (∃ return) =>
+                // method.retornable = true
+                if (hasReturn)
+                    node.setRetornable(true);
+            }
+        }
+
+        super.visit(node, param);
+
+        return null ;
+    }
+
+    public Object visit(FuncCall node, Object param) { 
         if(node.getArgs() != null){
             for(Expr exp: node.getArgs() )
                 exp.accept(this, param);
