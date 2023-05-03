@@ -171,6 +171,8 @@ public class TypeChecking extends DefaultVisitor {
             for(Expr exp: node.getArgs() )
                 exp.accept(this, param);
         }
+
+        predicado(node.getDefinicion().isRetornable(),"La funcion debe retornar algo ", node.getStart());
         
         boolean eqParams = false;
         if(node.getDefinicion().getParameter() != null)
