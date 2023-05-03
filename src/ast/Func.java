@@ -82,6 +82,15 @@ public class Func extends AbstractDef {
 	private Type retorno;
 	private List<DefVar> defvar;
 	private List<Sentence> sentence;
+	private boolean retornable;
+
+	public boolean isRetornable() {
+		return retornable;
+	}
+
+	public void setRetornable(boolean retornable) {
+		this.retornable = retornable;
+	}
 
 	public String toString() {
        return "{name:" + getName() + ", parameter:" + getParameter() + ", retorno:" + getRetorno() + ", defvar:" + getDefvar() + ", sentence:" + getSentence() + "}";
