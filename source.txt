@@ -12,7 +12,7 @@ NOTA: Es posible que el alumno deba cambiar ligeramente este ejemplo para que co
 */
  
 var a:int;
-var b:float;
+var b:char;
  
 struct Punto {
 	x:float;
@@ -24,7 +24,7 @@ var p:Punto;
  
 main() {
 	a = 1111;
-	b = 2222.2;
+	b = d;
 	v[3] = 3333;
 	p.y = 4444.4;
  

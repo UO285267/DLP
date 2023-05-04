@@ -158,6 +158,8 @@ public class TypeChecking extends DefaultVisitor {
                 // method.retornable = true
                 if (hasReturn)
                     node.setRetornable(true);
+            }else{
+                node.setRetornable(false);
             }
         }
 

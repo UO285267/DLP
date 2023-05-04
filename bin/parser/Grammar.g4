@@ -31,7 +31,8 @@ sentencia returns[Sentence ast]
 	| 'while' '(' expr ')' '{' se+=sentencia* '}' {$ast = new WhileSentence($expr.ast,$se);}
 	| 'return' expr ';'  {$ast = new ReturnNode($expr.ast);}
 	| 'return' ';'	{$ast = new ReturnNode(null);}
-	| IDENT '(' expr ')' ';' {$ast = new FuncCall($IDENT,$expr.ast);}
+	| IDENT '('')' ';' {$ast = new FuncCall($IDENT,new ArrayList<Expr>());}
+	| IDENT'('ex+=expr ( ','ex+=expr )* ')' ';' {$ast = new FuncCall($IDENT,$ex);}
 	;	
 
 expr returns[Expr ast]
@@ -39,9 +40,10 @@ expr returns[Expr ast]
 	| LITREAL {$ast = new LitReal($LITREAL);}
 	| LITCHAR {$ast = new LitChar($LITCHAR);}
 	| IDENT {$ast = new Variable($IDENT);}
+	| IDENT '('')' {$ast =new MethodCallExpr($IDENT,new ArrayList<Expr>());}
 	| IDENT'('ex+=expr ( ','ex+=expr )* ')' {$ast =new MethodCallExpr($IDENT,$ex);}
 	| left=expr '[' right=expr ']'{$ast = new ArrayAcces($left.ast, $right.ast);}
-	| left=expr op='.' IDENT {$ast = new Acces($left.ast, $op.text, $IDENT);}
+	| left=expr '.' IDENT {$ast = new Acces($left.ast, $IDENT);}
 	| '(' expr ')' {$ast = $expr.ast ;}
 	|  '<' tipo '>' '(' expr ')' {$ast = new Cast($tipo.ast, $expr.ast);}
 	| left=expr op=('*' | '/') right=expr {$ast = new ExprAritmetica($left.ast, $op.text, $right.ast);}
