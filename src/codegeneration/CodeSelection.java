@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import ast.*;
+import semantic.Ambito;
 import visitor.*;
 
 public  class CodeSelection extends DefaultVisitor {
@@ -39,11 +40,76 @@ public  class CodeSelection extends DefaultVisitor {
 
     }
 
-    public Object visit(WhileSentence node, Object param) { 
+    public Object visit(Read node, Object param) {  
+        line(node);
+        if(node.getExpr() != null){
+            node.getExpr().accept(this, CodeFunction.ADDRESS);
+            out("in" ,node.getExpr().getType());
+            out("store" , node.getExpr().getType());
+        }
+
+        return null; 
+    } 
+
+    public Object visit(IfElseSentence node, Object param) { 
+        line(node);
+        int label = getLabel();
+        int labelf = label + 1;
+
+        if(node.getCondition() != null)
+            node.getCondition().accept(this, CodeFunction.VALUE);
+        out("jz " + label);
+        if(node.getIftrue() != null){
+            for(Sentence s : node.getIftrue()){
+                s.accept(this, param);
+            }
+        }
+        out("jmp " + labelf);
+        out(label + ":");
+        if(node.getElse1() != null){
+            for(Sentence s : node.getElse1()){
+                s.accept(this, param);
+            }
+        }
+        out(labelf + ":"); 
+        return null; 
+    } 
+
+    public Object visit(IfSentence node, Object param) { 
         line(node);
         int label = getLabel();
         
-        
+        if(node.getCondition() != null){
+            node.getCondition().accept(this, CodeFunction.VALUE);
+        }
+        out("jz " + label);
+        if(node.getIftrue() != null){
+            for(Sentence s : node.getIftrue()){
+                s.accept(this, param);
+            }
+        }
+        out(label + ":");
+
+        return null; 
+    } 
+
+    public Object visit(WhileSentence node, Object param) { 
+        line(node);
+        int label = getLabel();
+        int labelf = label + 1;
+        out(label + ":");
+        if(node.getCondition() != null ){
+            node.getCondition().accept(this, CodeFunction.VALUE);
+        }
+        out("jnz " + labelf);
+        if(node.getSentence() != null){
+            for(Sentence s : node.getSentence()){
+                s.accept(this, param);
+            }
+        }
+        out("jmp " + label);
+        out(labelf + ":");
+
         return null; 
     } 
 
@@ -177,7 +243,14 @@ public  class CodeSelection extends DefaultVisitor {
             out("load", node.getType()); 
         } else { // Funcion.DIRECCION
             assert (param == CodeFunction.ADDRESS); 
-            out("pusha " + node.getDefinicion().getAddress()); 
+            if(node.getDefinicion().getAmbito() == Ambito.GLOBAL){
+                out("pusha " + node.getDefinicion().getAddress()); 
+            }else{
+                out("pusha bp");
+                out("push " + node.getDefinicion().getAddress());
+                out("add");
+            }
+            
         } 
         return null; 
     } 
@@ -201,6 +274,7 @@ public  class CodeSelection extends DefaultVisitor {
             out("load", node.getType()); 
         } else { // Funcion.DIRECCION
             assert (param == CodeFunction.ADDRESS); 
+            
             out("pusha " + node.getAddress()); 
         } 
         return null; 

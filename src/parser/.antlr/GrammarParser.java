@@ -1,4 +1,4 @@
-// Generated from d:\Esqueleto Traductor\src\parser\Grammar.g4 by ANTLR 4.9.2
+// Generated from d:\TrabajoDLP\DLP\src\parser\Grammar.g4 by ANTLR 4.9.2
 
 	import ast.*;
 

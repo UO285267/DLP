@@ -4,6 +4,8 @@
 
 package ast;
 
+import semantic.Ambito;
+
 public abstract class AbstractDef extends AbstractAST implements Def {
 
     @Override
@@ -11,5 +13,16 @@ public abstract class AbstractDef extends AbstractAST implements Def {
         // TODO Auto-generated method stub
         return null;
     }
+
+    public Ambito getAmbito() {
+        return ambito;
+    }
+
+    public void setAmbito(Ambito ambito) {
+        this.ambito = ambito;
+    }
+
+    private Ambito ambito;
+
 
 }

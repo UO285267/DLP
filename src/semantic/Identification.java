@@ -18,6 +18,20 @@ public class Identification extends DefaultVisitor {
     public Identification(ErrorManager errorManager) {
         this.errorManager = errorManager;
     }
+    
+    public Object visit(Program node, Object param) {
+        
+		for (AST ast : node.getAst()) {
+            ast.accept(this, param);
+            if(ast instanceof DefVar){
+                DefVar def = (DefVar) ast;
+                def.setAmbito(Ambito.GLOBAL);
+            }
+        }
+        
+
+		return null;
+	}
 
     public Object visit(Func node, Object param){
         Func func = funcs.get(node.getName());
@@ -54,6 +68,16 @@ public class Identification extends DefaultVisitor {
             }
            se.setFunc(node); 
         }
+        node.getDefvar();
+        if(node.getParameter()!= null){
+            for(Parameter par: node.getParameter()){
+                par.getDefinicion().setAmbito(Ambito.PARAM);
+            }
+        }
+        if(node.getDefvar() != null){
+            for (DefVar child : node.getDefvar()) 
+                child.setAmbito(Ambito.LOCAL);
+            }
         return null;
     }
 

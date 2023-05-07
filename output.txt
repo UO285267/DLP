@@ -1,38 +1,76 @@
+
+#line 36
 #source "source.txt"
+
+#line 14
 #GLOBAL a:int
+
+#line 15
 #GLOBAL b:float
+
+#line 19
 #type Punto: {
 x:float
 y:float
 }
+
+#line 22
 #GLOBAL v:5*int
+
+#line 23
 #GLOBAL p:Punto
 
 #line 26
+
+#line 26
 pusha 0
+
+#line 26
 pushi 1111
 storei
 
 #line 27
+
+#line 27
 pusha 2
-pushf 2222.2
+
+#line 27
+pushf 312.3
 storef
+
+#line 28
+
+#line 28
 
 #line 28
 pusha 6
 push 2
+
+#line 28
 pushi 3
 mul
 add
+
+#line 28
 pushi 3333
 storei
+
+#line 29
+
+#line 29
 
 #line 29
 pusha 16
 push 4
 add
+
+#line 29
 pushf 4444.4
 storef
+
+#line 31
+
+#line 31
 
 #line 31
 pusha 0
@@ -42,8 +80,18 @@ pushb 32
 outb
 
 #line 32
+
+#line 32
+
+#line 32
+
+#line 32
 pusha 2
 loadf
+
+#line 32
+
+#line 32
 pusha 16
 push 4
 add
@@ -54,7 +102,13 @@ pushb 32
 outb
 
 #line 33
+
+#line 33
+
+#line 33
 pusha 6
+
+#line 33
 pushi 3
 push 2
 mul
@@ -65,16 +119,40 @@ pushb 10
 outb
 
 #line 35
+
+#line 35
+
+#line 35
+
+#line 35
+
+#line 35
 pusha 0
 loadi
+
+#line 35
 pushi 0
 gti
+
+#line 35
+
+#line 35
+
+#line 35
 pusha 2
 loadf
+
+#line 35
 pushf 3333.3
 ltf
 and
 outi
+
+#line 36
+
+#line 36
+
+#line 36
 
 #line 36
 pusha 2

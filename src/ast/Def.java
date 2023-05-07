@@ -4,10 +4,12 @@
 
 package ast;
 
+import semantic.Ambito;
+
 public interface Def extends AST {
     public Type getType();
     
-   
+    void setAmbito(Ambito ambito);
     String getName();
     
 
