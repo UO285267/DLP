@@ -150,18 +150,19 @@ public class TypeChecking extends DefaultVisitor {
                         break;
                     }
             }
-            if (node.getRetorno() != null) {
-                // returnNode ⊂ method.definition
-                predicado(hasReturn, "Este método debe retornar un resultado de tipo: " + node.getRetorno(),
-                        node.getStart());
-                // si (∃ return) =>
-                // method.retornable = true
-                if (hasReturn)
-                    node.setRetornable(true);
-            }else{
-                node.setRetornable(false);
-            }
         }
+        if (node.getRetorno() != null) {
+            // returnNode ⊂ method.definition
+            predicado( hasReturn, "Este método debe retornar un resultado de tipo: " + node.getRetorno(),
+                node.getStart());
+            // si (∃ return) =>
+            // method.retornable = true
+            if (hasReturn)
+                node.setRetornable(true);
+        }else{
+            node.setRetornable(false);
+        }
+        
 
         super.visit(node, param);
 
@@ -173,12 +174,13 @@ public class TypeChecking extends DefaultVisitor {
             for(Expr exp: node.getArgs() )
                 exp.accept(this, param);
         }
-
-        predicado(node.getDefinicion().isRetornable(),"La funcion debe retornar algo ", node.getStart());
         
         boolean eqParams = false;
         if(node.getDefinicion().getParameter() != null)
             eqParams = node.getArgs().size() == node.getDefinicion().getParameter().size();
+        if(node.getArgs().size() == 0 && node.getDefinicion().getParameter() == null){
+            eqParams = true;
+        }
         predicado(eqParams,"El número de parámetos no coincide", node.getStart());
         
         if(eqParams){
@@ -218,13 +220,14 @@ public class TypeChecking extends DefaultVisitor {
             for(Expr exp: node.getArgs() )
                 exp.accept(this, param);
         }
+        predicado(node.getDefinicion().isRetornable(),"La funcion debe retornar algo ", node.getStart());
         
         boolean eqParams = false;
         if(node.getDefinicion().getParameter() != null)
             eqParams = node.getArgs().size() == node.getDefinicion().getParameter().size();
         predicado(eqParams,"El número de parámetos no coincide", node.getStart());
         
-        predicado(node.getDefinicion().getRetorno() == null , 
+        predicado(node.getDefinicion().getRetorno() != null , 
             "La funcion no tiene retorno",node.getStart());
         if(eqParams){
             boolean sameType =true;

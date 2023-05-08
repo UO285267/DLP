@@ -21,7 +21,15 @@ public abstract class AbstractDef extends AbstractAST implements Def {
     public void setAmbito(Ambito ambito) {
         this.ambito = ambito;
     }
+    private int address;
 
+	public int getAddress() {
+		return address;
+	}
+
+	public void setAddress(int addres) {
+		this.address = addres;
+	}
     private Ambito ambito;
 
 

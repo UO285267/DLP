@@ -40,6 +40,37 @@ public  class CodeSelection extends DefaultVisitor {
 
     }
 
+    public Object visit(Func node, Object param){
+        line (node.getStart());
+        out(node.getName() + ":");
+        out("#func " + node.getName());
+        if(node.getRetorno() != null){
+            out("#ret " + node.getRetorno().getMAPLName());
+        }
+        int psize = 0 ;
+        if(node.getParameter() != null){
+            for(Parameter p : node.getParameter()){
+                out("#param " + p.getName() + ":" + p.getType().getMAPLName());
+                psize += p.getType().getSize();
+            }
+        }
+        int size = 0;
+        for( DefVar def: node.getDefvar()){
+            size += def.getType().getSize();
+            out("#local " + def.getName() + ":" + def.getType().getMAPLName());
+        }
+        out("enter " + size);
+
+        for(Sentence s : node.getSentence()){
+            s.accept(this, param);
+        }
+
+        if(node.getRetorno() == null){
+            out("ret 0, " + size + ", " +  psize);
+        }
+        return null ;
+    }
+
     public Object visit(Read node, Object param) {  
         line(node);
         if(node.getExpr() != null){
@@ -58,20 +89,20 @@ public  class CodeSelection extends DefaultVisitor {
 
         if(node.getCondition() != null)
             node.getCondition().accept(this, CodeFunction.VALUE);
-        out("jz " + label);
+        out("jz label" + label);
         if(node.getIftrue() != null){
             for(Sentence s : node.getIftrue()){
                 s.accept(this, param);
             }
         }
-        out("jmp " + labelf);
-        out(label + ":");
+        out("jmp label" + labelf);
+        out("label" + label + ":");
         if(node.getElse1() != null){
             for(Sentence s : node.getElse1()){
                 s.accept(this, param);
             }
         }
-        out(labelf + ":"); 
+        out("label"+labelf + ":"); 
         return null; 
     } 
 
@@ -82,13 +113,13 @@ public  class CodeSelection extends DefaultVisitor {
         if(node.getCondition() != null){
             node.getCondition().accept(this, CodeFunction.VALUE);
         }
-        out("jz " + label);
+        out("jz label" + label);
         if(node.getIftrue() != null){
             for(Sentence s : node.getIftrue()){
                 s.accept(this, param);
             }
         }
-        out(label + ":");
+        out("label"+label + ":");
 
         return null; 
     } 
@@ -97,18 +128,18 @@ public  class CodeSelection extends DefaultVisitor {
         line(node);
         int label = getLabel();
         int labelf = label + 1;
-        out(label + ":");
+        out("label"+label + ":");
         if(node.getCondition() != null ){
             node.getCondition().accept(this, CodeFunction.VALUE);
         }
-        out("jnz " + labelf);
+        out("jnz label" + labelf);
         if(node.getSentence() != null){
             for(Sentence s : node.getSentence()){
                 s.accept(this, param);
             }
         }
-        out("jmp " + label);
-        out(labelf + ":");
+        out("jmp label" + label);
+        out("label"+labelf + ":");
 
         return null; 
     } 
@@ -116,11 +147,17 @@ public  class CodeSelection extends DefaultVisitor {
     public Object visit(ReturnNode node, Object param) { 
         line(node);
         if(node.getExpr() != null){
+            int paramSize = 0;
+            int size = 0;
             node.getExpr().accept(this, CodeFunction.VALUE);
-            int size = node.getFunc().getDefvar().stream().map(a -> a.getType().getSize())
-            .reduce(0, (x,y) -> x + y );
-            int paramSize = node.getFunc().getParameter().stream().map(a -> a.getType().getSize())
-            .reduce(0, (x,y) -> x + y );
+            if(node.getFunc().getDefvar() != null){
+                size = node.getFunc().getDefvar().stream().map(a -> a.getType().getSize())
+                    .reduce(0, (x,y) -> x + y );
+            }
+            if(node.getFunc().getParameter() !=null){
+                 paramSize = node.getFunc().getParameter().stream().map(a -> a.getType().getSize())
+                    .reduce(0, (x,y) -> x + y );
+            }
             out("ret " + node.getExpr().getType().getSize() + ", " + size + ", " + paramSize);
         }
         return null; 
@@ -134,7 +171,7 @@ public  class CodeSelection extends DefaultVisitor {
                 ex.accept(this, CodeFunction.VALUE);
             }
         }
-        out("call" + node.getName());
+        out("call " + node.getName());
         return null; 
     } 
 
@@ -145,7 +182,7 @@ public  class CodeSelection extends DefaultVisitor {
                 ex.accept(this, CodeFunction.VALUE);
             }
         }
-        out("call" + node.getName());
+        out("call " + node.getName());
         if(node.getDefinicion().isRetornable()){
             out("pop",node.getDefinicion().getRetorno());
         }
@@ -153,10 +190,10 @@ public  class CodeSelection extends DefaultVisitor {
     } 
 
     public Object visit(Program node, Object param) { 
-        line(node);
         out("#source \"" + sourceFile + "\""); 
-        visitChildren(node.getAst(), param); 
+        out("call main");
         out("halt"); 
+        visitChildren(node.getAst(), param); 
         return null; 
     } 
 
@@ -191,7 +228,7 @@ public  class CodeSelection extends DefaultVisitor {
     }
 
     public Object visit(ExprAritmetica node, Object param) { 
-        line(node);
+        
         assert (param == CodeFunction.VALUE); 
         node.getLeft().accept(this, CodeFunction.VALUE); 
         node.getRight().accept(this, CodeFunction.VALUE); 
@@ -200,7 +237,7 @@ public  class CodeSelection extends DefaultVisitor {
     } 
 
     public Object visit(ExprLogica node, Object param) { 
-        line(node);
+        
         assert (param == CodeFunction.VALUE); 
         
         if(node.getOp().equals("&&") ||node.getOp().equals("||") ){
@@ -216,7 +253,7 @@ public  class CodeSelection extends DefaultVisitor {
     } 
 
     public Object visit(ExprLogicaNe node, Object param) { 
-        line(node);
+    
         assert (param == CodeFunction.VALUE); 
         node.getExpr().accept(this, CodeFunction.VALUE); 
         out("not");

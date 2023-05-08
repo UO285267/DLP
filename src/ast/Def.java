@@ -8,7 +8,8 @@ import semantic.Ambito;
 
 public interface Def extends AST {
     public Type getType();
-    
+    int getAddress();
+    void setAddress(int address);
     void setAmbito(Ambito ambito);
     String getName();
     

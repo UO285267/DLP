@@ -47,6 +47,7 @@ public class MemoryAllocation extends DefaultVisitor {
         if(func.getParameter() != null){
             for(int i = func.getParameter().size() -1 ; i >= 0; i--){
                 func.getParameter().get(i).setAddress(offset);
+                func.getParameter().get(i).getDefinicion().setAddress(offset);
                 offset += func.getParameter().get(i).getType().getSize();
             }
         }

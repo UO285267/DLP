@@ -119,7 +119,7 @@ public class Identification extends DefaultVisitor {
         DefVar definicion = context.getFromTop(node.getName()); 
         predicado(definicion == null, "Variable ya definida: " + node.getName(), node); 
         DefVar var = new DefVar(node.getName(), node.getType());
-
+        node.setDefinicion(var);
         context.put(node.getName(), var); 
         return null; 
     }
