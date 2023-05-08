@@ -132,7 +132,7 @@ public  class CodeSelection extends DefaultVisitor {
         if(node.getCondition() != null ){
             node.getCondition().accept(this, CodeFunction.VALUE);
         }
-        out("jnz label" + labelf);
+        out("jz label" + labelf);
         if(node.getSentence() != null){
             for(Sentence s : node.getSentence()){
                 s.accept(this, param);
@@ -159,6 +159,18 @@ public  class CodeSelection extends DefaultVisitor {
                     .reduce(0, (x,y) -> x + y );
             }
             out("ret " + node.getExpr().getType().getSize() + ", " + size + ", " + paramSize);
+        }else{
+            int paramSize = 0;
+            int size = 0;
+            if(node.getFunc().getDefvar() != null){
+                size = node.getFunc().getDefvar().stream().map(a -> a.getType().getSize())
+                    .reduce(0, (x,y) -> x + y );
+            }
+            if(node.getFunc().getParameter() !=null){
+                 paramSize = node.getFunc().getParameter().stream().map(a -> a.getType().getSize())
+                    .reduce(0, (x,y) -> x + y );
+            }
+            out("ret 0" + ", " + size + ", " + paramSize);
         }
         return null; 
     } 

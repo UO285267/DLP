@@ -42,7 +42,7 @@ loadi
 #line 37
 pushi 4
 lti
-jnz label1
+jz label1
 
 #line 38
 
@@ -183,6 +183,7 @@ pushi 4
 gei
 or
 jz label2
+ret 0, 0, 2
 label2:
 
 #line 48
@@ -272,7 +273,7 @@ loadi
 pushi 4
 gei
 not
-jnz label5
+jz label5
 
 #line 58
 
