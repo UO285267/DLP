@@ -110,8 +110,8 @@ public class TypeChecking extends DefaultVisitor {
 
     public Object visit(Parameter node, Object param) {
         node.getType().accept(this, param);
-
-        predicado(esPrimitivo(node.getType()), "El parametro debe ser primitivo",node);
+        if(!(node.getType() instanceof ArrayType))
+            predicado(esPrimitivo(node.getType()), "El parametro debe ser primitivo",node);
         return null;
     }
 
