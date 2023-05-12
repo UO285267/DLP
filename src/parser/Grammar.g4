@@ -56,7 +56,9 @@ expr returns[Expr ast]
 	;
 
 funcion returns [Func ast]
-	: {List<Parameter> para = new ArrayList<Parameter>();List<Sentence> sent = new ArrayList<Sentence>(); List<DefVar> def = new ArrayList<DefVar>();}
+	: 
+	IDENT '('')' '{' '}' {$ast = new Func($IDENT,null,null,null,null);}
+	|{List<Parameter> para = new ArrayList<Parameter>();List<Sentence> sent = new ArrayList<Sentence>(); List<DefVar> def = new ArrayList<DefVar>();}
 	IDENT '('p=parametro{para.add($p.ast);} (','pa=parametro {para.add($pa.ast);})*')' ':' tipo '{'(definicion{def.add($definicion.ast);})* (sentencia{sent.add($sentencia.ast);})+ '}'
 	{$ast = new Func($IDENT,para,$tipo.ast,def,sent);}
 	|{List<Parameter> para = new ArrayList<Parameter>();List<Sentence> sent = new ArrayList<Sentence>(); List<DefVar> def = new ArrayList<DefVar>();}
@@ -68,10 +70,7 @@ funcion returns [Func ast]
 	|{List<Sentence> sent = new ArrayList<Sentence>(); List<DefVar> def = new ArrayList<DefVar>();}
 	IDENT '('')' '{'(definicion{def.add($definicion.ast);})* (sentencia{sent.add($sentencia.ast);})+ '}'
 	{$ast = new Func($IDENT,null,null,def,sent);}
-	|
-	IDENT '('')' ':' '{' '}' {$ast = new Func($IDENT,null,null,null,null);}
-	|
-	IDENT '('')' '{' '}' {$ast = new Func($IDENT,null,null,null,null);}
+	|IDENT '('')' ':' '{' '}' {$ast = new Func($IDENT,null,null,null,null);}
 	;
 
 parametro returns[Parameter ast]

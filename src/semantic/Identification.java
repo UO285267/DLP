@@ -42,31 +42,32 @@ public class Identification extends DefaultVisitor {
         context.set();
         super.visit(node, node);
         context.reset();
+        if(node.getSentence() != null){
+            for (Sentence se : node.getSentence()) {
 
-        for (Sentence se : node.getSentence()) {
-
-            if(se instanceof IfElseSentence ){
-                IfElseSentence s = (IfElseSentence) se;
-                for(Sentence sen: s.getIftrue()){
-                    sen.setFunc(node);
+                if(se instanceof IfElseSentence ){
+                    IfElseSentence s = (IfElseSentence) se;
+                    for(Sentence sen: s.getIftrue()){
+                        sen.setFunc(node);
+                    }
+                    for(Sentence sen: s.getElse1()){
+                        sen.setFunc(node);
+                    }
                 }
-                for(Sentence sen: s.getElse1()){
-                    sen.setFunc(node);
+                if(se instanceof IfSentence ){
+                    IfSentence s = (IfSentence) se;
+                    for(Sentence sen: s.getIftrue()){
+                        sen.setFunc(node);
+                    }
                 }
+                if(se instanceof WhileSentence ){
+                    WhileSentence s = (WhileSentence) se;
+                    for(Sentence sen: s.getSentence()){
+                        sen.setFunc(node);
+                    }
+                }
+            se.setFunc(node); 
             }
-            if(se instanceof IfSentence ){
-                IfSentence s = (IfSentence) se;
-                for(Sentence sen: s.getIftrue()){
-                    sen.setFunc(node);
-                }
-            }
-            if(se instanceof WhileSentence ){
-                WhileSentence s = (WhileSentence) se;
-                for(Sentence sen: s.getSentence()){
-                    sen.setFunc(node);
-                }
-            }
-           se.setFunc(node); 
         }
         node.getDefvar();
         if(node.getParameter()!= null){
@@ -128,6 +129,11 @@ public class Identification extends DefaultVisitor {
         DefStruct definicion =estruct.get(node.getName()); 
         predicado(definicion == null, "Estruct ya definida: " + node.getName(), node); 
         estruct.put(node.getName(), node); 
+        context.set();
+        for(Parameter p : node.getParameter()){
+            p.accept(this, param);
+        }
+        context.reset();
         return null; 
     }
     

@@ -118,37 +118,39 @@ public class TypeChecking extends DefaultVisitor {
     public Object visit(Func node , Object param){
 
         boolean hasReturn = false;
-        for (Sentence s : node.getSentence()) {
-            if (s instanceof ReturnNode) {
-                hasReturn = true;
-                break;
-            }
-            if (s instanceof IfElseSentence) {
-                IfElseSentence se = (IfElseSentence) s;
-                for (Sentence sent : se.getIftrue())
-                    if (sent instanceof ReturnNode) {
-                        hasReturn = true;
-                        break;
-                    }
-                for (Sentence sent : se.getElse1())
-                    if (sent instanceof ReturnNode) {
-                        hasReturn = true;
-                        break;
-                    }
-            }else if(s instanceof IfSentence){
-                IfSentence se = (IfSentence) s;
-                for (Sentence sent : se.getIftrue())
-                    if (sent instanceof ReturnNode) {
-                        hasReturn = true;
-                        break;
-                    }
-            }else if (s instanceof WhileSentence) {
-                WhileSentence se = (WhileSentence) s;
-                for (Sentence sent : se.getSentence())
-                    if (sent instanceof ReturnNode) {
-                        hasReturn = true;
-                        break;
-                    }
+        if(node.getSentence() != null){
+            for (Sentence s : node.getSentence()) {
+                if (s instanceof ReturnNode) {
+                    hasReturn = true;
+                    break;
+                }
+                if (s instanceof IfElseSentence) {
+                    IfElseSentence se = (IfElseSentence) s;
+                    for (Sentence sent : se.getIftrue())
+                        if (sent instanceof ReturnNode) {
+                            hasReturn = true;
+                            break;
+                        }
+                    for (Sentence sent : se.getElse1())
+                        if (sent instanceof ReturnNode) {
+                            hasReturn = true;
+                            break;
+                        }
+                }else if(s instanceof IfSentence){
+                    IfSentence se = (IfSentence) s;
+                    for (Sentence sent : se.getIftrue())
+                        if (sent instanceof ReturnNode) {
+                            hasReturn = true;
+                            break;
+                        }
+                }else if (s instanceof WhileSentence) {
+                    WhileSentence se = (WhileSentence) s;
+                    for (Sentence sent : se.getSentence())
+                        if (sent instanceof ReturnNode) {
+                            hasReturn = true;
+                            break;
+                        }
+                }
             }
         }
         if (node.getRetorno() != null) {
