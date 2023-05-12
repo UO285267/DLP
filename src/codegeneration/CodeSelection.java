@@ -55,14 +55,17 @@ public  class CodeSelection extends DefaultVisitor {
             }
         }
         int size = 0;
-        for( DefVar def: node.getDefvar()){
-            size += def.getType().getSize();
-            out("#local " + def.getName() + ":" + def.getType().getMAPLName());
+        if(node.getDefvar() != null){
+            for( DefVar def: node.getDefvar()){
+                size += def.getType().getSize();
+                out("#local " + def.getName() + ":" + def.getType().getMAPLName());
+            }
         }
         out("enter " + size);
-
-        for(Sentence s : node.getSentence()){
-            s.accept(this, param);
+        if(node.getSentence() != null ){
+            for(Sentence s : node.getSentence()){
+                s.accept(this, param);
+            }
         }
 
         if(node.getRetorno() == null){

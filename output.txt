@@ -2,349 +2,438 @@
 call main
 halt
 
-#line 17
-potencia:
-#func potencia
-#ret float
-#param base:float
-#param exponente:int
-#local total:float
-enter 4
+#line 28
+#type Persona: {
+inicial:byte
+sueldo:float
+}
 
-#line 29
+#line 31
+#GLOBAL empresa:4*Persona
 
-#line 20
+#line 33
+inicia:
+#func inicia
+#local i:int
+enter 2
 
-#line 20
+#line 36
+
+#line 36
 pusha bp
-push 4
+push -2
 add
-loadi
 
-#line 20
+#line 36
 pushi 0
-eqi
-jz label0
+storei
 
-#line 21
-
-#line 21
-pusha bp
-push -4
-add
-
-#line 21
-pushf 1.0
-storef
-jmp label1
+#line 40
 label0:
 
-#line 29
+#line 37
 
-#line 23
+#line 37
+pusha bp
+push -2
+add
+loadi
 
-#line 23
+#line 37
+pushi 4
+lti
+jz label1
+
+#line 38
+
+#line 38
+
+#line 38
+
+#line 38
+pusha 0
+push 5
+
+#line 38
+
+#line 38
+pusha bp
+push -2
+add
+loadi
+mul
+add
+push 0
+add
+
+#line 38
+
+#line 38
+
+#line 38
+pusha bp
+push -2
+add
+loadi
+
+#line 38
+
+#line 38
+pushb 65
+b2i
+addi
+i2b
+storeb
+
+#line 39
+
+#line 39
+
+#line 39
+
+#line 39
+pusha 0
+push 5
+
+#line 39
+
+#line 39
+pusha bp
+push -2
+add
+loadi
+mul
+add
+push 1
+add
+
+#line 39
+
+#line 39
+pushi 1000
+
+#line 39
+
+#line 39
+pusha bp
+push -2
+add
+loadi
+
+#line 39
+pushi 100
+muli
+addi
+i2f
+storef
+
+#line 40
+
+#line 40
+pusha bp
+push -2
+add
+
+#line 40
+
+#line 40
+pusha bp
+push -2
+add
+loadi
+
+#line 40
+pushi 1
+addi
+storei
+jmp label0
+label1:
+ret 0, 2, 0
+
+#line 44
+busca:
+#func busca
+#param i:int
+enter 0
+
+#line 45
+
+#line 45
+
+#line 45
 pusha bp
 push 4
 add
 loadi
 
-#line 23
+#line 45
 pushi 0
 lti
-jz label2
 
-#line 24
+#line 45
 
-#line 24
-pusha bp
-push -4
-add
-
-#line 24
-pushf 1.0
-
-#line 24
-
-#line 24
-
-#line 24
-pusha bp
-push 6
-add
-loadf
-
-#line 24
-pushi 0
-
-#line 24
-
-#line 24
+#line 45
 pusha bp
 push 4
 add
 loadi
-subi
-call potencia
-divf
-storef
-jmp label3
+
+#line 45
+pushi 4
+gei
+or
+jz label2
+ret 0, 0, 2
 label2:
 
-#line 26
+#line 48
 
-#line 26
+#line 48
+
+#line 48
+
+#line 48
+pusha 0
+push 5
+
+#line 48
+
+#line 48
 pusha bp
-push -4
+push 4
 add
+loadi
+mul
+add
+push 0
+add
+loadb
+outb
+pushb 10
+outb
 
-#line 26
+#line 49
 
-#line 26
+#line 49
+
+#line 49
+
+#line 49
+pusha 0
+push 5
+
+#line 49
+
+#line 49
 pusha bp
-push 6
+push 4
+add
+loadi
+mul
+add
+push 1
 add
 loadf
-storef
+outf
+pushb 10
+outb
+ret 0, 0, 2
 
-#line 29
+#line 52
+imprime:
+#func imprime
+#ret int
+#local i:int
+#local aux:Persona
+enter 7
+
+#line 56
+
+#line 56
+pusha bp
+push -2
+add
+
+#line 56
+pushi 0
+storei
+
+#line 64
 label4:
 
-#line 27
+#line 57
 
-#line 27
+#line 57
 pusha bp
-push 4
+push -2
 add
 loadi
 
-#line 27
-pushi 1
-gti
+#line 57
+pushi 4
+gei
+not
 jz label5
 
-#line 28
+#line 58
 
-#line 28
+#line 58
+
+#line 58
 pusha bp
-push -4
+push -7
+add
+push 0
 add
 
-#line 28
+#line 58
 
-#line 28
+#line 58
+
+#line 58
+pusha 0
+push 5
+
+#line 58
+
+#line 58
 pusha bp
-push -4
+push -2
+add
+loadi
+mul
+add
+push 0
+add
+loadb
+storeb
+
+#line 59
+
+#line 59
+
+#line 59
+pusha bp
+push -7
+add
+push 1
+add
+
+#line 59
+
+#line 59
+
+#line 59
+pusha 0
+push 5
+
+#line 59
+
+#line 59
+pusha bp
+push -2
+add
+loadi
+mul
+add
+push 1
 add
 loadf
-
-#line 28
-
-#line 28
-pusha bp
-push 6
-add
-loadf
-mulf
 storef
 
-#line 29
+#line 61
 
-#line 29
+#line 61
+
+#line 61
 pusha bp
-push 4
+push -7
+add
+push 0
+add
+loadb
+outb
+pushb 10
+outb
+
+#line 62
+
+#line 62
+
+#line 62
+pusha bp
+push -7
+add
+push 1
+add
+loadf
+outf
+pushb 10
+outb
+
+#line 64
+
+#line 64
+pusha bp
+push -2
 add
 
-#line 29
+#line 64
 
-#line 29
+#line 64
 pusha bp
-push 4
+push -2
 add
 loadi
 
-#line 29
+#line 64
 pushi 1
-subi
+addi
 storei
 jmp label4
 label5:
-label3:
-label1:
 
-#line 33
+#line 66
 
-#line 33
+#line 66
 
-#line 33
+#line 66
 pusha bp
-push -4
-add
-loadf
-ret 4, 4, 6
-
-#line 37
-letraHipoteca:
-#func letraHipoteca
-#ret float
-#param capital:float
-#param meses:int
-#param interes:float
-#local mensual:float
-enter 4
-
-#line 40
-
-#line 40
-pusha bp
-push -4
-add
-
-#line 40
-
-#line 40
-pusha bp
-push 4
-add
-loadf
-
-#line 40
-pushf 12.0
-divf
-storef
-
-#line 41
-
-#line 41
-
-#line 41
-pusha bp
-push 10
-add
-loadf
-
-#line 41
-
-#line 41
-pusha bp
-push -4
-add
-loadf
-mulf
-
-#line 41
-pushf 100.0
-
-#line 41
-pushf 1.0
-
-#line 41
-
-#line 41
-pushf 1.0
-
-#line 41
-
-#line 41
-pusha bp
-push -4
-add
-loadf
-
-#line 41
-pushf 100.0
-divf
-addf
-
-#line 41
-pushi 0
-
-#line 41
-
-#line 41
-pusha bp
-push 8
+push -2
 add
 loadi
-subi
-call potencia
-subf
-mulf
-divf
-ret 4, 4, 10
+ret 2, 7, 0
 
-#line 45
+#line 69
 main:
 #func main
-#local precioVivienda:float
-#local mesesHipoteca:int
-#local interes:float
-enter 10
+#local posicion:int
+enter 2
 
-#line 55
+#line 72
+call inicia
 
-#line 55
+#line 74
+
+#line 74
 pusha bp
-push -4
+push -2
 add
-
-#line 55
-pushf 200000.0
-storef
-
-#line 56
-
-#line 56
-pusha bp
-push -6
-add
-
-#line 56
-pushi 30
-
-#line 56
-pushi 12
-muli
+ini
 storei
 
-#line 57
+#line 75
 
-#line 57
+#line 75
+
+#line 75
 pusha bp
-push -10
-add
-
-#line 57
-pushf 2.04
-storef
-
-#line 59
-
-#line 59
-
-#line 59
-
-#line 59
-pusha bp
-push -4
-add
-loadf
-
-#line 59
-
-#line 59
-pusha bp
-push -6
+push -2
 add
 loadi
+call busca
 
-#line 59
-
-#line 59
-pusha bp
-push -10
-add
-loadf
-call letraHipoteca
-outf
-ret 0, 10, 0
+#line 77
+call imprime
+popi
+ret 0, 2, 0

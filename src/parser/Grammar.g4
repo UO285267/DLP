@@ -68,6 +68,8 @@ funcion returns [Func ast]
 	|{List<Sentence> sent = new ArrayList<Sentence>(); List<DefVar> def = new ArrayList<DefVar>();}
 	IDENT '('')' '{'(definicion{def.add($definicion.ast);})* (sentencia{sent.add($sentencia.ast);})+ '}'
 	{$ast = new Func($IDENT,null,null,def,sent);}
+	|
+	IDENT '('')' ':' '{' '}' {$ast = new Func($IDENT,null,null,null,null);}
 	;
 
 parametro returns[Parameter ast]
