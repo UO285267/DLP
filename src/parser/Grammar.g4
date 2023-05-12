@@ -70,6 +70,8 @@ funcion returns [Func ast]
 	{$ast = new Func($IDENT,null,null,def,sent);}
 	|
 	IDENT '('')' ':' '{' '}' {$ast = new Func($IDENT,null,null,null,null);}
+	|
+	IDENT '('')' '{' '}' {$ast = new Func($IDENT,null,null,null,null);}
 	;
 
 parametro returns[Parameter ast]
