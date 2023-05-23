@@ -107,7 +107,7 @@ public class Identification extends DefaultVisitor {
     }
 
     public Object visit(DefVar node, Object param) { 
-        node.getType().accept(this, param); // No es necesario realmente
+        node.getType().accept(this, param); 
         Def definicion = context.getFromTop(node.getName()); 
         predicado(definicion == null, "Variable ya definida: " + node.getName(), node); 
         context.put(node.getName(), node); 
@@ -115,7 +115,7 @@ public class Identification extends DefaultVisitor {
     }
 
     public Object visit(Parameter node, Object param) { 
-        node.getType().accept(this, param); // No es necesario realmente
+        node.getType().accept(this, param); 
 
         DefVar definicion = context.getFromTop(node.getName()); 
         predicado(definicion == null, "Variable ya definida: " + node.getName(), node); 
