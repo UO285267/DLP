@@ -291,7 +291,7 @@ public  class CodeSelection extends DefaultVisitor {
     public Object visit(Variable node, Object param) { 
         line(node);
         if (((CodeFunction) param) == CodeFunction.VALUE) { 
-            visit(node, CodeFunction.ADDRESS); 
+            node.accept(this, CodeFunction.ADDRESS); 
             out("load", node.getType()); 
         } else { // Funcion.DIRECCION
             assert (param == CodeFunction.ADDRESS); 
