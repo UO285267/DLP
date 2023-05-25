@@ -10,6 +10,9 @@ LITREAL
 LITCHAR
 	: '\'' (. | '\\n') '\''
 	;
+LITBOOL
+: 'false'| 'true'
+;
 IDENT
 	: [a-zA-Z0-9_]+
 	;

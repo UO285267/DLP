@@ -60,6 +60,10 @@ public class DefaultVisitor implements Visitor {
 		return null;
 	}
 
+	public Object visit(BoolType node, Object param) {
+		return null;
+	}
+
 	//	class CharType {  }
 	public Object visit(CharType node, Object param) {
 		return null;
@@ -205,6 +209,10 @@ public class DefaultVisitor implements Visitor {
 
 	//	class LitChar { String string; }
 	public Object visit(LitChar node, Object param) {
+		return null;
+	}
+
+	public Object visit(LitBool node, Object param) {
 		return null;
 	}
 

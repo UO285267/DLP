@@ -74,20 +74,23 @@ public class TypeChecking extends DefaultVisitor {
 
      public Object visit(IfElseSentence node, Object param) {
         super.visit(node, param);
-        predicado(node.getCondition().getType() instanceof IntType, "La ocndicion debe ser un numero entero",node.getStart());
+        predicado(node.getCondition().getType().getClass() == IntType.class || node.getCondition().getType().getClass() == BoolType.class ,
+                    "Los operandos deben de ser enteros o boleanos", node.getStart());
         return null;
     }
 
      public Object visit(IfSentence node, Object param) {
         super.visit(node, param);
-        predicado(node.getCondition().getType() instanceof IntType, "La ocndicion debe ser un numero entero",node.getStart());
+        predicado(node.getCondition().getType().getClass() == IntType.class || node.getCondition().getType().getClass() == BoolType.class ,
+                    "Los operandos deben de ser enteros o boleanos", node.getStart());
         return null;
     }
 
 
      public Object visit(WhileSentence node, Object param) {
         super.visit(node, param);
-        predicado(node.getCondition().getType() instanceof IntType, "La ocndicion debe ser un numero entero",node.getStart());
+        predicado(node.getCondition().getType().getClass() == IntType.class || node.getCondition().getType().getClass() == BoolType.class ,
+                    "Los operandos deben de ser enteros o boleanos", node.getStart());
         return null;
     }
 
@@ -280,12 +283,12 @@ public class TypeChecking extends DefaultVisitor {
        
         predicado(mismoTipo(node.getLeft(), node.getRight()), "Los operandos deben ser del mismo tipo", node); 
         if(node.getOp().equals("&&")|| node.getOp().equals("||")){
-            predicado(node.getLeft().getType().getClass() == IntType.class,
-                    "Los operandos deben de ser enteros", node.getStart());
-            predicado(node.getRight().getType().getClass() == IntType.class,
-                    "Los operandos deben de ser enteros", node.getStart());
+            predicado(node.getLeft().getType().getClass() == IntType.class || node.getLeft().getType().getClass() == BoolType.class ,
+                    "Los operandos deben de ser enteros o boleanos", node.getStart());
+            predicado(node.getRight().getType().getClass() == IntType.class || node.getRight().getType().getClass() == BoolType.class,
+                    "Los operandos deben de ser enteros o boleanos", node.getStart());
         }else{
-            predicado(isNumber(node.getRight().getType()),"Los operandos deben de ser numeros",node.getStart());
+            predicado(isNumber(node.getRight().getType()),"Los operandos deben de ser numeros ",node.getStart());
             predicado(isNumber(node.getLeft().getType()),"Los operandos deben de ser numeros",node.getStart());
         }
         node.setType(new IntType()); 
@@ -382,6 +385,12 @@ public class TypeChecking extends DefaultVisitor {
         node.setLValue(false); 
         return null; 
     } 
+
+    public Object visit(LitBool node , Object param){
+        node.setType(new BoolType());
+        node.setLValue(false); 
+        return null;
+    }
 
 
     private boolean isNumber(Type type){

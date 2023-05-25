@@ -414,6 +414,14 @@ public  class CodeSelection extends DefaultVisitor {
         return null; 
     } 
 
+    public Object visit(LitBool node, Object param) { 
+        line(node);
+        assert (param == CodeFunction.VALUE); 
+        out("pushi " + node.getString()); 
+        return null; 
+    } 
+
+
     // Métodos auxiliares recomendados (opcionales) -------------
 
     // Imprime una línea en el fichero de salida

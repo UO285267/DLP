@@ -39,6 +39,7 @@ expr returns[Expr ast]
 	: LITENT {$ast = new LitEnt($LITENT);}
 	| LITREAL {$ast = new LitReal($LITREAL);}
 	| LITCHAR {$ast = new LitChar($LITCHAR);}
+	| LITBOOL {$ast = new LitBool($LITBOOL);}
 	| IDENT {$ast = new Variable($IDENT);}
 	| IDENT '('')' {$ast =new MethodCallExpr($IDENT,new ArrayList<Expr>());}
 	| IDENT'('ex+=expr ( ','ex+=expr )* ')' {$ast =new MethodCallExpr($IDENT,$ex);}
@@ -81,6 +82,7 @@ tipo returns[Type ast]
 	: 'int' {$ast = new IntType();}
 	| 'float' {$ast = new RealType();}
 	| 'char' {$ast = new CharType();}
+	| 'bool' {$ast = new BoolType();}
 	| '['LITENT']' tipo {$ast = new ArrayType($LITENT, $tipo.ast);}
 	|	IDENT {$ast = new StructType($IDENT.text);}
 	;

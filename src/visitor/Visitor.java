@@ -7,6 +7,8 @@ package visitor;
 import ast.*;
 
 public interface Visitor {
+	public Object visit(BoolType node, Object param);
+	public Object visit(LitBool node, Object param);
 	public Object visit(Program node, Object param);
 	public Object visit(Func node, Object param);
 	public Object visit(DefVar node, Object param);
